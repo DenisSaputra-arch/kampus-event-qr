@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Registration;
+use App\Services\ActivityLogger;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -108,6 +109,9 @@ class RegistrationController extends Controller
                 ]);
             });
 
+            // Catat pendaftaran berhasil (audit trail — tanpa token QR!)
+            ActivityLogger::log('register_event: event_id=' . $event->id, $user);
+
             return redirect()
                 ->route('registrations.show', $registration)
                 ->with('success', 'Selamat! Anda berhasil terdaftar. Berikut adalah e-tiket QR Anda.');
@@ -157,6 +161,9 @@ class RegistrationController extends Controller
         $registration->update([
             'status' => 'cancelled',
         ]);
+
+        // Catat pembatalan tiket (audit trail)
+        ActivityLogger::log('cancel_ticket: registration_id=' . $registration->id, request()->user());
 
         return redirect()
             ->route('registrations.index')

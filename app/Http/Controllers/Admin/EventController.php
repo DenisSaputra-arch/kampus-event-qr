@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
+use App\Services\ActivityLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -64,6 +65,9 @@ class EventController extends Controller
     {
         $event = Event::create($request->validated());
 
+        // Catat pembuatan event (audit trail)
+        ActivityLogger::log('event_created: event_id=' . $event->id, $request->user());
+
         return redirect()
             ->route('admin.events.index')
             ->with('success', 'Event "' . $event->title . '" berhasil dibuat.');
@@ -105,6 +109,9 @@ class EventController extends Controller
 
         $event->update($request->validated());
 
+        // Catat pembaruan event (audit trail)
+        ActivityLogger::log('event_updated: event_id=' . $event->id, $request->user());
+
         return redirect()
             ->route('admin.events.index')
             ->with('success', 'Event "' . $event->title . '" berhasil diperbarui.');
@@ -121,7 +128,12 @@ class EventController extends Controller
         Gate::authorize('delete', $event);
 
         $title = $event->title;
+        $eventId = $event->id;
+
         $event->delete();
+
+        // Catat penghapusan event (audit trail)
+        ActivityLogger::log('event_deleted: event_id=' . $eventId, request()->user());
 
         return redirect()
             ->route('admin.events.index')

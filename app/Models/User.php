@@ -60,4 +60,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Registration::class);
     }
+
+    /**
+     * Relasi ke log aktivitas yang dilakukan oleh user ini (jejak audit).
+     */
+    public function activityLogs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
 }

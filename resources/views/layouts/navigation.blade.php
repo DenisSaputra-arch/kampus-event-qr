@@ -38,6 +38,9 @@
                             <x-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.*')">
                                 {{ __('Laporan') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('admin.activity-logs.index')" :active="request()->routeIs('admin.activity-logs.*')">
+                                {{ __('Log Aktivitas') }}
+                            </x-nav-link>
                         @endif
                     @endauth
                 </div>
@@ -124,6 +127,9 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.*')">
                         {{ __('Laporan') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.activity-logs.index')" :active="request()->routeIs('admin.activity-logs.*')">
+                        {{ __('Log Aktivitas') }}
                     </x-responsive-nav-link>
                 @endif
             @endauth

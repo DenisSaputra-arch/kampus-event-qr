@@ -7,6 +7,7 @@ use App\Http\Requests\ScanQrRequest;
 use App\Models\Attendance;
 use App\Models\Event;
 use App\Models\Registration;
+use App\Services\ActivityLogger;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -123,6 +124,7 @@ class ScanController extends Controller
                     'status' => 200,
                     'success' => true,
                     'message' => 'Presensi Berhasil! Kehadiran atas nama ' . $registration->user->name . ' telah tercatat.',
+                    'registration_id' => $registration->id,
                     'data' => [
                         'participant_name' => $registration->user->name,
                         'participant_email' => $registration->user->email,
@@ -131,6 +133,12 @@ class ScanController extends Controller
                     ],
                 ];
             });
+
+            // Catat log scan (berhasil / gagal) — tanpa token QR
+            $logAction = $result['success']
+                ? 'scan_qr_success: event_id=' . $selectedEventId
+                : 'scan_qr_rejected: event_id=' . $selectedEventId . ' status=' . $result['status'];
+            ActivityLogger::log($logAction, $admin);
 
             // Respon sesuai jenis request (JSON untuk scanning kamera via AJAX, Redirect untuk input form)
             if ($request->expectsJson() || $request->ajax()) {

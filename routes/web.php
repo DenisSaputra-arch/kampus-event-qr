@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\EventController as AdminEventController;
+use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
@@ -42,14 +43,19 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // CRUD Event oleh Admin
     Route::resource('events', AdminEventController::class);
 
-    // Pemindaian & Verifikasi Kehadiran Tiket QR
+    // Pemindaian & Verifikasi Kehadiran Tiket QR (Rate limited: anti brute-force token)
     Route::get('/scan', [\App\Http\Controllers\Admin\ScanController::class, 'index'])->name('scan.index');
-    Route::post('/scan/verify', [\App\Http\Controllers\Admin\ScanController::class, 'verify'])->name('scan.verify');
+    Route::post('/scan/verify', [\App\Http\Controllers\Admin\ScanController::class, 'verify'])
+        ->middleware('throttle:scan')
+        ->name('scan.verify');
 
     // Laporan Kehadiran & Ekspor CSV Aman
     Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/{event}', [\App\Http\Controllers\Admin\ReportController::class, 'show'])->name('reports.show');
     Route::get('/reports/{event}/export-csv', [\App\Http\Controllers\Admin\ReportController::class, 'exportCsv'])->name('reports.export');
+
+    // Log Aktivitas Admin
+    Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
 });
 
 require __DIR__.'/auth.php';

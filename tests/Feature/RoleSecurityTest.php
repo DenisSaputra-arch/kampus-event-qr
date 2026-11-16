@@ -16,8 +16,8 @@ class RoleSecurityTest extends TestCase
         $response = $this->post('/register', [
             'name' => 'Budi Santoso',
             'email' => 'budi@example.com',
-            'password' => 'Password123!',
-            'password_confirmation' => 'Password123!',
+            'password' => 'P@ssw0rdKuat#2026Secure',
+            'password_confirmation' => 'P@ssw0rdKuat#2026Secure',
         ]);
 
         $response->assertRedirect('/dashboard');
@@ -35,8 +35,8 @@ class RoleSecurityTest extends TestCase
         $response = $this->post('/register', [
             'name' => 'Attacker',
             'email' => 'attacker@example.com',
-            'password' => 'Password123!',
-            'password_confirmation' => 'Password123!',
+            'password' => 'P@ssw0rdKuat#2026Secure',
+            'password_confirmation' => 'P@ssw0rdKuat#2026Secure',
             'role' => 'admin', // Injeksi manipulasi role
         ]);
 

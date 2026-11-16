@@ -16,6 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\EnsureUserHasRole::class,
         ]);
+
+        // Tambahkan security headers ke semua respons web
+        // Mitigasi: Clickjacking, MIME sniffing, XSS via CSP, information disclosure
+        $middleware->web(append: [
+            \Bepsvpt\SecureHeaders\SecureHeadersMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
