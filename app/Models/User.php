@@ -10,6 +10,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * Keamanan:
+ * - Kolom 'role' sengaja TIDAK dimasukkan ke dalam $fillable / #[Fillable].
+ *   Hal ini untuk mencegah Mass Assignment Vulnerability, sehingga input request dari luar
+ *   (misal saat registrasi atau update profil) tidak dapat memanipulasi hak akses menjadi 'admin'.
+ */
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
@@ -26,7 +32,24 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password' => 'hashed', // Password otomatis di-hash dengan bcrypt/argon2
         ];
+    }
+
+    /**
+     * Cek apakah user memiliki peran sebagai admin.
+     * Bagian penting dari kontrol akses RBAC.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Cek apakah user memiliki peran sebagai peserta.
+     */
+    public function isPeserta(): bool
+    {
+        return $this->role === 'peserta';
     }
 }
