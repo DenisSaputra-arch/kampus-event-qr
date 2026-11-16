@@ -1,23 +1,10 @@
 # ==============================================================================
-# Multi-Stage Dockerfile untuk Kampus Event QR (Laravel 13 + PHP 8.4 + Apache)
-# Kompatibel dengan: Railway, Render, Fly.io, Cloud Run, Docker Compose
+# Dockerfile Ringan untuk Kampus Event QR (Laravel 13 + PHP 8.4 + Apache)
+# Aset frontend (public/build) telah terkompilasi, hemat memori di Railway/Render
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
-# Tahap 1: Build Frontend Assets (Vite + Tailwind CSS + Alpine.js)
-# ------------------------------------------------------------------------------
-FROM node:22-alpine AS frontend-builder
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm ci
-
-COPY vite.config.js ./
-COPY resources/ ./resources/
-RUN npm run build
-
-# ------------------------------------------------------------------------------
-# Tahap 2: Install PHP Dependencies (Composer)
+# Tahap 1: Install Dependensi PHP (Composer)
 # ------------------------------------------------------------------------------
 FROM composer:2.8 AS vendor-builder
 WORKDIR /app
@@ -31,11 +18,11 @@ RUN composer install \
     --ignore-platform-reqs
 
 # ------------------------------------------------------------------------------
-# Tahap 3: Final Production Image (PHP 8.4 Apache)
+# Tahap 2: Citra Produksi Utama (PHP 8.4 Apache)
 # ------------------------------------------------------------------------------
 FROM php:8.4-apache
 
-# Download script pembantu instalasi ekstensi PHP resmi (mlocati)
+# Download script instalasi ekstensi PHP resmi (mlocati)
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions
 
@@ -67,7 +54,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Konfigurasi Apache mod_rewrite dan mod_headers
+# Aktifkan Apache mod_rewrite dan mod_headers
 RUN a2enmod rewrite headers
 
 # Ubah DocumentRoot Apache ke direktori /var/www/html/public
@@ -103,14 +90,11 @@ RUN { \
 
 WORKDIR /var/www/html
 
-# Salin kode sumber aplikasi
+# Salin kode sumber aplikasi (termasuk folder public/build hasil kompilasi)
 COPY . .
 
-# Salin hasil build vendor dari stage composer
+# Salin hasil vendor dari tahap composer
 COPY --from=vendor-builder /app/vendor/ /var/www/html/vendor/
-
-# Salin aset frontend hasil kompilasi Vite dari stage node
-COPY --from=frontend-builder /app/public/build/ /var/www/html/public/build/
 
 # Salin script entrypoint
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
