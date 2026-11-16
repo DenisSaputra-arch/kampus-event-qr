@@ -41,6 +41,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // CRUD Event oleh Admin
     Route::resource('events', AdminEventController::class);
+
+    // Pemindaian & Verifikasi Kehadiran Tiket QR
+    Route::get('/scan', [\App\Http\Controllers\Admin\ScanController::class, 'index'])->name('scan.index');
+    Route::post('/scan/verify', [\App\Http\Controllers\Admin\ScanController::class, 'verify'])->name('scan.verify');
 });
 
 require __DIR__.'/auth.php';

@@ -32,6 +32,9 @@
                             <x-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.*')">
                                 {{ __('Kelola Event') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('admin.scan.index')" :active="request()->routeIs('admin.scan.*')">
+                                {{ __('Scan QR') }}
+                            </x-nav-link>
                         @endif
                     @endauth
                 </div>
@@ -112,6 +115,9 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.events.index')" :active="request()->routeIs('admin.events.*')">
                         {{ __('Kelola Event') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.scan.index')" :active="request()->routeIs('admin.scan.*')">
+                        {{ __('Scan QR') }}
                     </x-responsive-nav-link>
                 @endif
             @endauth
