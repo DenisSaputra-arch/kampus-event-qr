@@ -14,9 +14,14 @@ Route::get('/events/{event}', [EventController::class, 'show'])->name('events.sh
 
 // Area Pengguna Terautentikasi (Peserta & Admin)
 Route::middleware('auth')->group(function () {
-    // Dashboard Pengguna
+    // Dashboard Pengguna (Peserta & Admin)
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $user = request()->user();
+        $registrations = $user->registrations()->with('event')->orderBy('created_at', 'desc')->limit(4)->get();
+        $activeTicketsCount = $user->registrations()->where('status', 'registered')->count();
+        $availableEventsCount = \App\Models\Event::where('status', 'published')->where('start_at', '>', now())->count();
+
+        return view('dashboard', compact('registrations', 'activeTicketsCount', 'availableEventsCount'));
     })->name('dashboard');
 
     // Pendaftaran Event (Dilindungi DB Transaction + Pessimistic Lock)
@@ -37,7 +42,21 @@ Route::middleware('auth')->group(function () {
 // Keamanan: Dilindungi middleware 'auth' (wajib login) dan 'role:admin' (RBAC)
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');
+        $totalEvents = \App\Models\Event::count();
+        $totalRegistrations = \App\Models\Registration::where('status', 'registered')->count();
+        $totalAttendances = \App\Models\Attendance::count();
+        $totalLogs = \App\Models\ActivityLog::count();
+        $recentEvents = \App\Models\Event::orderBy('start_at', 'desc')->limit(4)->get();
+        $recentLogs = \App\Models\ActivityLog::with('user')->orderBy('created_at', 'desc')->limit(6)->get();
+
+        return view('admin.dashboard', compact(
+            'totalEvents',
+            'totalRegistrations',
+            'totalAttendances',
+            'totalLogs',
+            'recentEvents',
+            'recentLogs'
+        ));
     })->name('dashboard');
 
     // CRUD Event oleh Admin
