@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Utama & Daftar Event Publik (Melihat dan Mencari Event)
@@ -10,13 +11,22 @@ Route::get('/', [EventController::class, 'index'])->name('home');
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
-// Dashboard Peserta
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-// Profil Pengguna (auth)
+// Area Pengguna Terautentikasi (Peserta & Admin)
 Route::middleware('auth')->group(function () {
+    // Dashboard Pengguna
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    // Pendaftaran Event (Dilindungi DB Transaction + Pessimistic Lock)
+    Route::post('/events/{event}/register', [RegistrationController::class, 'store'])->name('events.register');
+
+    // Manajemen Tiket Peserta (Dilindungi Policy Anti-IDOR)
+    Route::get('/my-tickets', [RegistrationController::class, 'index'])->name('registrations.index');
+    Route::get('/tickets/{registration}', [RegistrationController::class, 'show'])->name('registrations.show');
+    Route::delete('/tickets/{registration}', [RegistrationController::class, 'destroy'])->name('registrations.destroy');
+
+    // Profil Pengguna
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

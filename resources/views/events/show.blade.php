@@ -12,14 +12,35 @@
 
     <div class="py-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Flash Alert -->
+            @if (session('success'))
+                <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 text-sm rounded shadow-sm">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded shadow-sm">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                 <div class="p-6 sm:p-8">
                     <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
+                            @if ($event->status === 'published') bg-green-100 text-green-800
+                            @elseif ($event->status === 'draft') bg-yellow-100 text-yellow-800
+                            @else bg-red-100 text-red-800 @endif">
                             {{ ucfirst($event->status) }}
                         </span>
-                        <div class="text-sm text-gray-500">
-                            Kuota Maksimal: <span class="font-bold text-gray-700">{{ $event->quota }} Peserta</span>
+
+                        <div class="text-sm">
+                            <span class="text-gray-500">Sisa Kuota:</span>
+                            <span class="font-bold {{ $event->remainingQuota() > 0 ? 'text-green-600' : 'text-red-600' }}">
+                                {{ $event->remainingQuota() }}
+                            </span>
+                            <span class="text-gray-400">/ {{ $event->quota }} Peserta</span>
                         </div>
                     </div>
 
@@ -55,14 +76,48 @@
                         {{ $event->description }}
                     </div>
 
-                    <div class="pt-6 border-t border-gray-100 flex items-center justify-between">
+                    <!-- Bagian Pendaftaran Tiket QR -->
+                    <div class="pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         @auth
-                            <div class="text-sm text-gray-500">
-                                Fitur pendaftaran tiket QR akan tersedia di Tahap 3.
-                            </div>
+                            @php
+                                $userRegistration = Auth::user()->registrations()
+                                    ->where('event_id', $event->id)
+                                    ->where('status', 'registered')
+                                    ->first();
+                            @endphp
+
+                            @if ($userRegistration)
+                                <div class="flex items-center gap-3">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                                        ✓ Anda Sudah Terdaftar
+                                    </span>
+                                    <a href="{{ route('registrations.show', $userRegistration) }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs uppercase tracking-widest rounded-md shadow transition">
+                                        Lihat Tiket QR Saya &rarr;
+                                    </a>
+                                </div>
+                            @elseif ($event->isFull())
+                                <div class="text-sm font-semibold text-red-600">
+                                    Pendaftaran ditutup: Kuota peserta telah penuh.
+                                </div>
+                            @elseif ($event->start_at->isPast())
+                                <div class="text-sm font-semibold text-gray-500">
+                                    Pendaftaran ditutup: Waktu acara telah berlalu.
+                                </div>
+                            @else
+                                <form method="POST" action="{{ route('events.register', $event) }}">
+                                    @csrf
+                                    <button type="submit" class="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold text-sm uppercase tracking-wider rounded-md shadow-md transition">
+                                        Daftar Sekarang (Gratis Tiket QR)
+                                    </button>
+                                </form>
+                            @endif
                         @else
-                            <div class="text-sm text-gray-500">
-                                Ingin mendaftar? Silakan <a href="{{ route('login') }}" class="text-indigo-600 font-semibold underline">Login</a> atau <a href="{{ route('register') }}" class="text-indigo-600 font-semibold underline">Daftar Akun</a> terlebih dahulu.
+                            <div class="text-sm text-gray-600">
+                                Ingin mendaftar? Silakan
+                                <a href="{{ route('login') }}" class="text-indigo-600 font-semibold underline">Login</a>
+                                atau
+                                <a href="{{ route('register') }}" class="text-indigo-600 font-semibold underline">Daftar Akun</a>
+                                untuk mendapatkan tiket QR.
                             </div>
                         @endauth
                     </div>

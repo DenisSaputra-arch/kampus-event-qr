@@ -52,4 +52,12 @@ class User extends Authenticatable
     {
         return $this->role === 'peserta';
     }
+
+    /**
+     * Relasi ke pendaftaran event yang diikuti oleh user ini.
+     */
+    public function registrations(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Registration::class);
+    }
 }

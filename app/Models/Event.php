@@ -49,4 +49,28 @@ class Event extends Model
     {
         return $this->status === 'published' && $this->start_at->isFuture();
     }
+
+    /**
+     * Jumlah peserta yang terdaftar aktif saat ini.
+     */
+    public function activeRegistrationsCount(): int
+    {
+        return $this->registrations()->where('status', 'registered')->count();
+    }
+
+    /**
+     * Sisa kuota peserta yang tersedia.
+     */
+    public function remainingQuota(): int
+    {
+        return max(0, $this->quota - $this->activeRegistrationsCount());
+    }
+
+    /**
+     * Cek apakah kuota pendaftaran sudah habis.
+     */
+    public function isFull(): bool
+    {
+        return $this->remainingQuota() <= 0;
+    }
 }
