@@ -12,6 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Percayai semua proxy di balik load balancer/reverse proxy cloud (Railway, Render, AWS, dsb.)
+        // Memastikan Request::ip() dan deteksi HTTPS bekerja akurat untuk audit log & rate limiting
+        $middleware->trustProxies(at: '*');
+
         // Alias middleware untuk pembatasan hak akses berbasis peran (RBAC)
         $middleware->alias([
             'role' => \App\Http\Middleware\EnsureUserHasRole::class,
