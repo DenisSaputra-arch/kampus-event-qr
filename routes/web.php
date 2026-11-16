@@ -45,6 +45,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Pemindaian & Verifikasi Kehadiran Tiket QR
     Route::get('/scan', [\App\Http\Controllers\Admin\ScanController::class, 'index'])->name('scan.index');
     Route::post('/scan/verify', [\App\Http\Controllers\Admin\ScanController::class, 'verify'])->name('scan.verify');
+
+    // Laporan Kehadiran & Ekspor CSV Aman
+    Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/{event}', [\App\Http\Controllers\Admin\ReportController::class, 'show'])->name('reports.show');
+    Route::get('/reports/{event}/export-csv', [\App\Http\Controllers\Admin\ReportController::class, 'exportCsv'])->name('reports.export');
 });
 
 require __DIR__.'/auth.php';
