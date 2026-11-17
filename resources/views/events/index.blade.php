@@ -1,9 +1,9 @@
 <x-app-layout>
     <!-- HERO SECTION ALA ASU EVENTS -->
     <div class="relative bg-charcoal-900 text-white min-h-[420px] flex items-center overflow-hidden">
-        <!-- Foto Suasana Acara Kampus -->
+        <!-- Foto Suasana Acara Kampus Lokal -->
         <img
-            src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=80"
+            src="{{ asset('images/hero-campus.jpg') }}"
             alt="Suasana Acara Kampus"
             class="absolute inset-0 w-full h-full object-cover object-center opacity-45"
         />
@@ -184,16 +184,6 @@
                                     $remaining = $event->remainingQuota();
                                     $isFull = $remaining <= 0;
                                     $isPast = $event->start_at->isPast();
-
-                                    // Mapping foto kampus berkualitas tinggi berdasarkan index/topik
-                                    $eventImages = [
-                                        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=700&q=80',
-                                        'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=700&q=80',
-                                        'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=700&q=80',
-                                        'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=700&q=80',
-                                        'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=700&q=80',
-                                    ];
-                                    $cardImage = $eventImages[$event->id % count($eventImages)];
                                 @endphp
 
                                 <div class="bg-white rounded-md border border-gray-200 overflow-hidden hover:shadow-md transition flex flex-col justify-between group">
@@ -201,7 +191,7 @@
                                         <!-- Foto Event Banner (ASU Event Card Style) -->
                                         <div class="relative h-44 w-full bg-charcoal-900 overflow-hidden">
                                             <img
-                                                src="{{ $cardImage }}"
+                                                src="{{ $event->getImageUrl() }}"
                                                 alt="{{ $event->title }}"
                                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                                             />

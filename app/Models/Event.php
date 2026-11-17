@@ -73,4 +73,30 @@ class Event extends Model
     {
         return $this->remainingQuota() <= 0;
     }
+
+    /**
+     * Mendapatkan URL gambar lokal event yang relevan.
+     */
+    public function getImageUrl(): string
+    {
+        $titleLower = strtolower($this->title);
+
+        if (str_contains($titleLower, 'cyber') || str_contains($titleLower, 'hacking')) {
+            return asset('images/events/seminar-cyber.jpg');
+        }
+        if (str_contains($titleLower, 'workshop') || str_contains($titleLower, 'coding') || str_contains($titleLower, 'owasp')) {
+            return asset('images/events/workshop-coding.jpg');
+        }
+        if (str_contains($titleLower, 'ctf') || str_contains($titleLower, 'kompetisi') || str_contains($titleLower, 'capture')) {
+            return asset('images/events/ctf-competition.jpg');
+        }
+        if (str_contains($titleLower, 'kuliah') || str_contains($titleLower, 'kriptografi') || str_contains($titleLower, 'kuantum')) {
+            return asset('images/events/lecture-quantum.jpg');
+        }
+        if (str_contains($titleLower, 'forensik') || str_contains($titleLower, 'incident') || str_contains($titleLower, 'response')) {
+            return asset('images/events/digital-forensics.jpg');
+        }
+
+        return asset('images/events/campus-general.jpg');
+    }
 }

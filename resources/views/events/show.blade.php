@@ -35,15 +35,6 @@
                 $isFull = $remaining <= 0;
                 $isPast = $event->start_at->isPast();
                 $userRegistration = Auth::check() ? Auth::user()->registrations()->where('event_id', $event->id)->where('status', 'registered')->first() : null;
-
-                $eventImages = [
-                    'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80',
-                    'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
-                ];
-                $detailImage = $eventImages[$event->id % count($eventImages)];
             @endphp
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
@@ -53,7 +44,7 @@
                         <!-- Banner Foto Event -->
                         <div class="relative h-64 sm:h-80 w-full bg-charcoal-900 overflow-hidden">
                             <img
-                                src="{{ $detailImage }}"
+                                src="{{ $event->getImageUrl() }}"
                                 alt="{{ $event->title }}"
                                 class="w-full h-full object-cover object-center"
                             />
