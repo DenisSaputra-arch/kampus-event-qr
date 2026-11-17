@@ -86,8 +86,10 @@
                                         @php
                                             // Tentukan warna badge berdasarkan jenis aksi
                                             $badgeClass = match(true) {
+                                                str_starts_with($log->action, 'login_failed') => 'bg-red-100 text-red-700',
                                                 str_starts_with($log->action, 'login') => 'bg-green-100 text-green-700',
                                                 str_starts_with($log->action, 'logout') => 'bg-gray-100 text-gray-600',
+                                                str_starts_with($log->action, 'access_denied') => 'bg-red-100 text-red-700',
                                                 str_starts_with($log->action, 'scan_qr_success') => 'bg-green-100 text-green-700',
                                                 str_starts_with($log->action, 'scan_qr_rejected') => 'bg-red-100 text-red-700',
                                                 str_starts_with($log->action, 'event_deleted') => 'bg-red-100 text-red-700',

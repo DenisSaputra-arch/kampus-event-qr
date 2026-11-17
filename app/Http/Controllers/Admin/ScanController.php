@@ -74,6 +74,7 @@ class ScanController extends Controller
                     return [
                         'status' => 404,
                         'success' => false,
+                        'reason' => 'token tidak ada',
                         'message' => 'Penolakan: Token QR tidak valid atau tidak terdaftar dalam sistem.',
                         'data' => null,
                     ];
@@ -84,6 +85,7 @@ class ScanController extends Controller
                     return [
                         'status' => 422,
                         'success' => false,
+                        'reason' => 'tiket dibatalkan',
                         'message' => 'Penolakan: Pendaftaran tiket ini telah dibatalkan oleh peserta.',
                         'data' => ['participant_name' => $registration->user->name],
                     ];
@@ -94,6 +96,7 @@ class ScanController extends Controller
                     return [
                         'status' => 422,
                         'success' => false,
+                        'reason' => 'event salah',
                         'message' => 'Penolakan: Tiket ini terdaftar untuk event "' . $registration->event->title . '", bukan event yang sedang Anda scan.',
                         'data' => ['participant_name' => $registration->user->name],
                     ];
@@ -108,6 +111,7 @@ class ScanController extends Controller
                     return [
                         'status' => 422,
                         'success' => false,
+                        'reason' => 'sudah absen',
                         'message' => 'Penolakan: Peserta atas nama "' . $registration->user->name . '" sudah melakukan presensi sebelumnya pada ' . $existing->scanned_at->format('d/m/Y H:i:s') . ' WIB.',
                         'data' => [
                             'participant_name' => $registration->user->name,
@@ -138,9 +142,12 @@ class ScanController extends Controller
             });
 
             // Catat log scan (berhasil / gagal) — tanpa token QR
-            $logAction = $result['success']
-                ? 'scan_qr_success: event_id=' . $selectedEventId
-                : 'scan_qr_rejected: event_id=' . $selectedEventId . ' status=' . $result['status'];
+            if ($result['success']) {
+                $logAction = 'scan_qr_success: event_id=' . $selectedEventId;
+            } else {
+                $reason = $result['reason'] ?? 'alasan tidak diketahui';
+                $logAction = 'scan_qr_rejected: alasan=' . $reason . ' (event_id=' . $selectedEventId . ')';
+            }
             ActivityLogger::log($logAction, $admin);
 
             // Respon sesuai jenis request (JSON untuk scanning kamera via AJAX, Redirect untuk input form)

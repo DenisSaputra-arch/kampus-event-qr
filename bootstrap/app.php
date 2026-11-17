@@ -31,4 +31,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
+
+        $exceptions->respond(function ($response, $e, Request $request) {
+            if ($response->getStatusCode() === 403) {
+                \App\Services\ActivityLogger::log('access_denied: url=' . $request->path(), $request->user());
+            }
+            return $response;
+        });
     })->create();

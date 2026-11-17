@@ -176,4 +176,91 @@ class ActivityLogTest extends TestCase
         $this->assertNotNull($log->user);
         $this->assertEquals($user->name, $log->user->name);
     }
+
+    /**
+     * Login gagal harus mencatat log 'login_failed' beserta email dan IP, tanpa password.
+     */
+    public function test_login_gagal_mencatat_log_login_failed(): void
+    {
+        $response = $this->post('/login', [
+            'email' => 'salah@kampus.ac.id',
+            'password' => 'PasswordSalah123!',
+        ]);
+
+        $response->assertSessionHasErrors('email');
+
+        $log = ActivityLog::where('action', 'like', 'login_failed%')->first();
+        $this->assertNotNull($log);
+        $this->assertStringContainsString('salah@kampus.ac.id', $log->action);
+        $this->assertStringNotContainsString('PasswordSalah123!', $log->action);
+        $this->assertNotNull($log->ip_address);
+    }
+
+    /**
+     * Akses yang ditolak (HTTP 403) harus mencatat log 'access_denied'.
+     */
+    public function test_akses_ditolak_403_mencatat_log_access_denied(): void
+    {
+        $peserta = $this->createPeserta();
+
+        $response = $this->actingAs($peserta)->get('/admin/scan');
+        $response->assertStatus(403);
+
+        $log = ActivityLog::where('action', 'like', 'access_denied%')->first();
+        $this->assertNotNull($log);
+        $this->assertStringContainsString('admin/scan', $log->action);
+        $this->assertEquals($peserta->id, $log->user_id);
+    }
+
+    /**
+     * Scan QR yang ditolak harus mencatat log 'scan_qr_rejected' beserta alasannya.
+     */
+    public function test_scan_qr_ditolak_mencatat_log_beserta_alasannya(): void
+    {
+        $admin = $this->createAdmin();
+        $event = Event::factory()->create(['status' => 'published']);
+        $eventLain = Event::factory()->create(['status' => 'published']);
+
+        // 1. Alasan: token tidak ada
+        $this->actingAs($admin)->postJson('/admin/scan/verify', [
+            'event_id' => $event->id,
+            'qr_token' => 'token_palsu_yang_pasti_tidak_ada_di_database_12345678901234567890',
+        ]);
+        $this->assertDatabaseHas('activity_logs', [
+            'action' => 'scan_qr_rejected: alasan=token tidak ada (event_id=' . $event->id . ')',
+        ]);
+
+        // 2. Alasan: event salah
+        $regLain = Registration::factory()->create([
+            'event_id' => $eventLain->id,
+            'user_id' => $this->createPeserta()->id,
+            'status' => 'registered',
+        ]);
+        $this->actingAs($admin)->postJson('/admin/scan/verify', [
+            'event_id' => $event->id,
+            'qr_token' => $regLain->qr_token,
+        ]);
+        $this->assertDatabaseHas('activity_logs', [
+            'action' => 'scan_qr_rejected: alasan=event salah (event_id=' . $event->id . ')',
+        ]);
+
+        // 3. Alasan: sudah absen
+        $reg = Registration::factory()->create([
+            'event_id' => $event->id,
+            'user_id' => $this->createPeserta()->id,
+            'status' => 'registered',
+        ]);
+        \App\Models\Attendance::create([
+            'registration_id' => $reg->id,
+            'scanned_by' => $admin->id,
+            'scanned_at' => now(),
+        ]);
+        $this->actingAs($admin)->postJson('/admin/scan/verify', [
+            'event_id' => $event->id,
+            'qr_token' => $reg->qr_token,
+        ]);
+        $this->assertDatabaseHas('activity_logs', [
+            'action' => 'scan_qr_rejected: alasan=sudah absen (event_id=' . $event->id . ')',
+        ]);
+    }
 }
