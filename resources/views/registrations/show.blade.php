@@ -77,13 +77,17 @@
                         <div class="space-y-1 text-right sm:text-left">
                             <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Status Validasi</span>
                             <div>
-                                @if ($registration->status === 'registered')
+                                @if ($registration->isAttended())
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold bg-blue-100 text-blue-800 border border-blue-200">
+                                        Hadir
+                                    </span>
+                                @elseif ($registration->status === 'registered')
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200">
-                                        TERDAFTAR AKTIF
+                                        Terdaftar Aktif
                                     </span>
                                 @else
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-extrabold bg-rose-100 text-rose-800 border border-rose-200">
-                                        DIBATALKAN
+                                        Dibatalkan
                                     </span>
                                 @endif
                             </div>
@@ -111,7 +115,7 @@
                         Cetak / Simpan PDF
                     </button>
 
-                    @if ($registration->status === 'registered')
+                    @if ($registration->status === 'registered' && ! $registration->isAttended() && ! $registration->event->start_at->isPast())
                         <form method="POST" action="{{ route('registrations.destroy', $registration) }}" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pendaftaran tiket ini? Kuota akan dilepaskan untuk peserta lain.');">
                             @csrf
                             @method('DELETE')

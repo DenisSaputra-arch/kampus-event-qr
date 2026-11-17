@@ -196,4 +196,71 @@ class RegistrationTest extends TestCase
             'user_id' => $this->pesertaA->id,
         ]);
     }
+
+    public function test_tiket_yang_sudah_hadir_menampilkan_status_hadir_dan_menyembunyikan_tombol_batal(): void
+    {
+        $tiket = Registration::factory()->create([
+            'event_id' => $this->event->id,
+            'user_id' => $this->pesertaA->id,
+            'status' => 'registered',
+        ]);
+
+        \App\Models\Attendance::create([
+            'registration_id' => $tiket->id,
+            'scanned_by' => $this->admin->id,
+            'scanned_at' => now(),
+        ]);
+
+        $response = $this->actingAs($this->pesertaA)->get("/tickets/{$tiket->id}");
+
+        $response->assertStatus(200);
+        $response->assertSee('Hadir');
+        $response->assertDontSee('Terdaftar Aktif');
+        $response->assertDontSee('Batalkan Tiket Saya');
+    }
+
+    public function test_pembatalan_tiket_ditolak_jika_tiket_sudah_hadir(): void
+    {
+        $tiket = Registration::factory()->create([
+            'event_id' => $this->event->id,
+            'user_id' => $this->pesertaA->id,
+            'status' => 'registered',
+        ]);
+
+        \App\Models\Attendance::create([
+            'registration_id' => $tiket->id,
+            'scanned_by' => $this->admin->id,
+            'scanned_at' => now(),
+        ]);
+
+        $response = $this->actingAs($this->pesertaA)->delete("/tickets/{$tiket->id}");
+
+        $response->assertSessionHas('error');
+        $this->assertDatabaseHas('registrations', [
+            'id' => $tiket->id,
+            'status' => 'registered',
+        ]);
+    }
+
+    public function test_pembatalan_tiket_ditolak_jika_waktu_event_sudah_lewat(): void
+    {
+        $pastEvent = Event::factory()->create([
+            'status' => 'published',
+            'start_at' => now()->subDay(),
+        ]);
+
+        $tiket = Registration::factory()->create([
+            'event_id' => $pastEvent->id,
+            'user_id' => $this->pesertaA->id,
+            'status' => 'registered',
+        ]);
+
+        $response = $this->actingAs($this->pesertaA)->delete("/tickets/{$tiket->id}");
+
+        $response->assertSessionHas('error');
+        $this->assertDatabaseHas('registrations', [
+            'id' => $tiket->id,
+            'status' => 'registered',
+        ]);
+    }
 }

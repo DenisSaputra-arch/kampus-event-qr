@@ -59,9 +59,16 @@
                                 <div class="space-y-2 flex-1">
                                     <div class="flex items-center gap-2">
                                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase
-                                            @if ($reg->status === 'registered') bg-emerald-100 text-emerald-800
+                                            @if ($reg->isAttended()) bg-blue-100 text-blue-800
+                                            @elseif ($reg->status === 'registered') bg-emerald-100 text-emerald-800
                                             @else bg-rose-100 text-rose-800 @endif">
-                                            {{ $reg->status === 'registered' ? 'Tiket Aktif' : 'Dibatalkan' }}
+                                            @if ($reg->isAttended())
+                                                Hadir
+                                            @elseif ($reg->status === 'registered')
+                                                Tiket Aktif
+                                            @else
+                                                Dibatalkan
+                                            @endif
                                         </span>
                                         <span class="text-[11px] text-gray-400">
                                             Didaftarkan: {{ $reg->created_at->format('d M Y, H:i') }} WIB

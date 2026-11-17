@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
     // Dashboard Pengguna (Peserta & Admin)
     Route::get('/dashboard', function () {
         $user = request()->user();
-        $registrations = $user->registrations()->with('event')->orderBy('created_at', 'desc')->limit(4)->get();
+        $registrations = $user->registrations()->with(['event', 'attendance'])->orderBy('created_at', 'desc')->limit(4)->get();
         $activeTicketsCount = $user->registrations()->where('status', 'registered')->count();
         $availableEventsCount = \App\Models\Event::where('status', 'published')->where('start_at', '>', now())->count();
 

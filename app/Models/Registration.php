@@ -61,4 +61,14 @@ class Registration extends Model
     {
         return $this->status === 'cancelled';
     }
+
+    /**
+     * Cek apakah pendaftaran sudah tercatat hadir.
+     */
+    public function isAttended(): bool
+    {
+        return $this->relationLoaded('attendance')
+            ? $this->attendance !== null
+            : $this->attendance()->exists();
+    }
 }

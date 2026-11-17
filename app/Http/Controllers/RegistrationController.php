@@ -22,7 +22,7 @@ class RegistrationController extends Controller
     {
         $registrations = $request->user()
             ->registrations()
-            ->with('event')
+            ->with(['event', 'attendance'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -146,7 +146,7 @@ class RegistrationController extends Controller
     {
         Gate::authorize('view', $registration);
 
-        $registration->load('event', 'user');
+        $registration->load('event', 'user', 'attendance');
 
         // Menghasilkan QR Code SVG dari token acak pendaftaran
         $qrCode = QrCode::size(240)
@@ -160,8 +160,9 @@ class RegistrationController extends Controller
     /**
      * Membatalkan pendaftaran tiket.
      *
-     * Keamanan IDOR:
+     * Keamanan IDOR & Integritas:
      * Otorisasi ketat via Policy untuk memastikan hanya pemilik tiket atau admin yang berhak membatalkan.
+     * Tiket yang sudah diverifikasi hadir atau event yang sudah lewat tidak dapat dibatalkan.
      */
     public function destroy(Registration $registration): RedirectResponse
     {
@@ -169,6 +170,14 @@ class RegistrationController extends Controller
 
         if ($registration->status === 'cancelled') {
             return redirect()->back()->with('error', 'Tiket ini sudah berstatus dibatalkan.');
+        }
+
+        if ($registration->isAttended()) {
+            return redirect()->back()->with('error', 'Tiket tidak dapat dibatalkan karena sudah digunakan untuk presensi kehadiran.');
+        }
+
+        if ($registration->event->start_at->isPast()) {
+            return redirect()->back()->with('error', 'Tiket tidak dapat dibatalkan karena waktu pelaksanaan acara telah lewat.');
         }
 
         $registration->update([

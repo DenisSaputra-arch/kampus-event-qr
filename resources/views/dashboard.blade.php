@@ -59,8 +59,16 @@
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between">
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase
-                                        {{ $reg->status === 'registered' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800' }}">
-                                        {{ $reg->status === 'registered' ? 'Tiket Aktif' : 'Dibatalkan' }}
+                                        @if ($reg->isAttended()) bg-blue-100 text-blue-800
+                                        @elseif ($reg->status === 'registered') bg-emerald-100 text-emerald-800
+                                        @else bg-rose-100 text-rose-800 @endif">
+                                        @if ($reg->isAttended())
+                                            Hadir
+                                        @elseif ($reg->status === 'registered')
+                                            Tiket Aktif
+                                        @else
+                                            Dibatalkan
+                                        @endif
                                     </span>
                                     <span class="text-[10px] text-gray-400 font-mono">#{{ str_pad($reg->id, 5, '0', STR_PAD_LEFT) }}</span>
                                 </div>
