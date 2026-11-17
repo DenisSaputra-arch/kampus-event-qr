@@ -44,20 +44,21 @@
                     </div>
                 @endif
 
-                <!-- Banner Event Terpilih -->
-                <div class="bg-indigo-900 text-white p-4 sm:p-6 rounded-xl shadow-md mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <!-- Banner Event Terpilih (Maroon University Style) -->
+                <div class="bg-maroon-700 text-white p-4 sm:p-6 rounded-md shadow-xs mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-l-4 border-gold-500">
                     <div>
-                        <div class="text-xs font-bold uppercase tracking-wider text-indigo-300">Target Event Presensi</div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-gold-400">Target Event Presensi</div>
                         <h3 class="text-xl font-black mt-1">{{ $selectedEvent->title }}</h3>
-                        <p class="text-xs text-indigo-200 mt-1">
+                        <p class="text-xs text-gray-200 mt-1">
                             📍 {{ $selectedEvent->location }} | 📅 {{ $selectedEvent->start_at->translatedFormat('d F Y, H:i') }} WIB
                         </p>
                     </div>
                     <div class="text-right">
-                        <span class="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-mono">
+                        <span class="inline-block px-3 py-1 bg-charcoal-900/60 rounded text-xs font-mono text-gold-400 border border-gold-500/30">
                             ID Event: #{{ $selectedEvent->id }}
                         </span>
                     </div>
+                </div>
                 </div>
 
                 <!-- Notifikasi Flash Manual -->

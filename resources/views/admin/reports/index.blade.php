@@ -80,7 +80,7 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
-                                        <a href="{{ route('admin.reports.show', $event) }}" class="inline-flex items-center px-3 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded text-xs font-semibold transition">
+                                        <a href="{{ route('admin.reports.show', $event) }}" class="inline-flex items-center px-3 py-1.5 bg-maroon-50 text-maroon-700 hover:bg-maroon-100 border border-maroon-200 rounded text-xs font-bold transition">
                                             Rincian
                                         </a>
 

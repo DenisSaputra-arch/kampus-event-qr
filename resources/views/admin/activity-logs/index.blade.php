@@ -33,7 +33,7 @@
                             class="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-blue-500 focus:border-blue-500 w-72"
                         />
                         <button type="submit"
-                            class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                            class="bg-maroon-700 text-white px-4 py-2 rounded-lg text-sm hover:bg-maroon-800 transition font-bold">
                             Cari
                         </button>
                         @if ($search)
