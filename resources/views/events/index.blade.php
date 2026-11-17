@@ -1,26 +1,26 @@
 <x-app-layout>
     <!-- HERO SECTION -->
-    <div class="bg-indigo-700 text-white py-14 sm:py-20 border-b border-indigo-800">
+    <div class="bg-white border-b border-gray-200 py-12 sm:py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto space-y-4">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-600 border border-indigo-500 text-xs font-semibold tracking-wide text-indigo-100">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                    <span>Tiket & Presensi QR untuk Event Kampus</span>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-xs font-semibold text-indigo-700">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>Sistem Manajemen & Presensi Event Kampus</span>
                 </div>
 
-                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-                    Temukan & Ikuti Event Kampus Impianmu
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
+                    Temukan & Ikuti Event Kampus
                 </h1>
 
-                <p class="text-base sm:text-lg text-indigo-200 leading-relaxed">
-                    Daftar seminar, workshop, dan kompetisi secara online, lalu tunjukkan tiket QR saat hari acara.
+                <p class="text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                    Pendaftaran seminar, workshop, dan kompetisi mahasiswa secara online dengan tiket QR Code untuk verifikasi kehadiran.
                 </p>
 
                 <!-- Search Bar -->
-                <div class="pt-4 max-w-2xl mx-auto">
+                <div class="pt-2 max-w-xl mx-auto">
                     <form method="GET" action="{{ route('events.index') }}" class="flex flex-col sm:flex-row gap-2">
                         <div class="relative flex-1 flex items-center">
-                            <svg class="w-5 h-5 text-gray-400 absolute left-3 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-gray-400 absolute left-3.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                             <input
@@ -28,37 +28,37 @@
                                 name="q"
                                 value="{{ $search ?? '' }}"
                                 placeholder="Cari topik seminar, workshop, atau lokasi..."
-                                class="w-full pl-10 pr-4 py-3 bg-white text-gray-900 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none placeholder-gray-400 font-medium shadow-sm"
+                                class="w-full pl-11 pr-4 py-2.5 bg-gray-50 text-gray-900 rounded-xl border border-gray-300 text-sm focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 focus:outline-none placeholder-gray-400 font-medium transition"
                             />
                         </div>
-                        <button type="submit" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-900 hover:bg-indigo-950 text-white font-bold text-sm rounded-xl transition active:scale-95">
+                        <button type="submit" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-xl transition shadow-xs active:scale-95">
                             Cari Event
                         </button>
                     </form>
 
                     @if (!empty($search))
-                        <div class="mt-3 flex items-center justify-center gap-2 text-sm text-indigo-200">
+                        <div class="mt-3 flex items-center justify-center gap-2 text-sm text-gray-600">
                             <span>Menampilkan hasil untuk: <strong>"{{ $search }}"</strong></span>
-                            <a href="{{ route('events.index') }}" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded-full transition">
-                                ✕ Reset
+                            <a href="{{ route('events.index') }}" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full transition">
+                                ✕ Reset Filter
                             </a>
                         </div>
                     @endif
                 </div>
 
                 <!-- Tiga Poin Fitur -->
-                <div class="pt-6 grid grid-cols-3 gap-3 sm:gap-6 text-center text-xs text-indigo-200 border-t border-indigo-600 mt-8">
+                <div class="pt-8 grid grid-cols-3 gap-3 sm:gap-6 text-center text-xs text-gray-500 border-t border-gray-100 mt-8 max-w-2xl mx-auto">
                     <div class="flex flex-col items-center gap-1">
-                        <span class="text-lg sm:text-xl font-bold text-white">Daftar Online</span>
-                        <span>Pilih event dan daftar tanpa antre</span>
+                        <span class="text-base sm:text-lg font-bold text-gray-900">Daftar Online</span>
+                        <span>Pilih event & amankan kuota</span>
                     </div>
                     <div class="flex flex-col items-center gap-1">
-                        <span class="text-lg sm:text-xl font-bold text-white">Tiket QR</span>
-                        <span>Satu tiket digital untuk tiap event</span>
+                        <span class="text-base sm:text-lg font-bold text-gray-900">Tiket QR</span>
+                        <span>E-tiket digital instan</span>
                     </div>
                     <div class="flex flex-col items-center gap-1">
-                        <span class="text-lg sm:text-xl font-bold text-white">Presensi Cepat</span>
-                        <span>Kehadiran tercatat lewat scan QR</span>
+                        <span class="text-base sm:text-lg font-bold text-gray-900">Presensi Cepat</span>
+                        <span>Scan QR di lokasi acara</span>
                     </div>
                 </div>
             </div>

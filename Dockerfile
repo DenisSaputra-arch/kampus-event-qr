@@ -20,6 +20,16 @@ RUN composer install \
     --ignore-platform-reqs
 
 # ------------------------------------------------------------------------------
+# Tahap 1.5: Kompilasi Aset Frontend (Vite & Tailwind CSS)
+# ------------------------------------------------------------------------------
+FROM node:20-alpine AS frontend-builder
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# ------------------------------------------------------------------------------
 # Tahap 2: Citra Produksi Utama (PHP 8.4 Apache)
 # ------------------------------------------------------------------------------
 FROM php:8.4-apache
@@ -80,8 +90,11 @@ RUN { \
 
 WORKDIR /var/www/html
 
-# Salin seluruh kode sumber aplikasi (termasuk folder public/build hasil kompilasi)
+# Salin seluruh kode sumber aplikasi
 COPY . .
+
+# Salin aset frontend yang sudah terkompilasi segar dari frontend-builder
+COPY --from=frontend-builder /app/public/build/ /var/www/html/public/build/
 
 # Salin folder vendor dari tahap composer
 COPY --from=vendor-builder /app/vendor/ /var/www/html/vendor/
