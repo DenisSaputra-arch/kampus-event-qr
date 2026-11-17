@@ -53,7 +53,7 @@ Proyek ini mengimplementasikan mitigasi keamanan ketat terhadap berbagai vektor 
 - **QR Code Generator:** `simplesoftwareio/simple-qrcode` (Vector SVG output)
 - **QR Code Scanner:** `html5-qrcode` (Kamera web & integrasi JavaScript)
 - **Security Headers:** `bepsvpt/secure-headers`
-- **Testing:** PHPUnit (75 Automated Feature & Unit Tests)
+- **Testing:** PHPUnit (7 Automated Security Tests)
 - **Containerization:** Docker (Multi-stage build PHP 8.4 Apache)
 
 ---
@@ -149,22 +149,22 @@ Setelah menjalankan `php artisan db:seed`, Anda dapat langsung menggunakan akun-
 
 ---
 
-## 🧪 Pengujian Otomatis (Automated Testing)
+## 🧪 Pengujian Otomatis Keamanan (Security Self-Testing)
 
-Aplikasi dilengkapi dengan rangkaian **75 automated feature tests** yang menguji seluruh fungsionalitas dan aspek keamanan:
+Aplikasi dilengkapi dengan rangkaian **7 automated security tests** (`SecurityTest.php`) yang menguji skenario celah keamanan penting:
 
 ```bash
 php artisan test
 ```
 
-Cakupan pengujian meliputi:
-- `RoleSecurityTest`: Proteksi hak akses role peserta vs admin, anti mass-assignment role.
-- `EventCrudTest`: Validasi form request, otorisasi IDOR status event publik vs draft.
-- `RegistrationTest`: Pendaftaran event, pencegahan over-quota/race condition, otorisasi pembatalan tiket.
-- `ScanVerificationTest`: 5 tahap verifikasi token QR (token valid, tiket aktif, kesesuaian event, deteksi scan ganda, pencatatan attendance).
-- `ReportSecurityTest`: Rekapitulasi kehadiran dan netralisasi CSV Formula Injection (CWE-1236).
-- `SecurityHeadersTest`: Validasi kehadiran security headers (`X-Frame-Options`, `nosniff`, `CSP`, `Referrer-Policy`) dan validasi kekuatan password.
-- `ActivityLogTest`: Pencatatan jejak audit aksi login, logout, pendaftaran, pembatalan, dan scan QR.
+Cakupan 7 skenario pengujian meliputi:
+1. `test_pencarian_event_kebal_terhadap_sql_injection`: Validasi parameter binding Eloquent ORM kebal terhadap injeksi query SQL.
+2. `test_peserta_tidak_bisa_mengakses_halaman_admin`: Proteksi Broken Access Control (RBAC) memblokir peserta biasa dari panel admin (403 Forbidden).
+3. `test_peserta_tidak_bisa_melihat_tiket_peserta_lain_idor`: Otorisasi RegistrationPolicy memblokir akses ke tiket QR milik pengguna lain (Anti-IDOR).
+4. `test_scan_qr_presensi_ganda_ditolak`: Mencegah presensi ganda (*double check-in*) pada QR Code yang sama.
+5. `test_scan_token_qr_palsu_ditolak`: Menolak token QR buatan yang tidak terdaftar di basis data (404 Not Found).
+6. `test_password_lemah_ditolak_saat_pendaftaran`: Memastikan kebijakan kata sandi kuat pada form registrasi.
+7. `test_ekspor_csv_kebal_terhadap_formula_injection`: Netralisasi karakter eksekusi formula spreadsheet (`=`, `+`, `-`, `@`) pada berkas CSV hasil ekspor (CWE-1236).
 
 ---
 
