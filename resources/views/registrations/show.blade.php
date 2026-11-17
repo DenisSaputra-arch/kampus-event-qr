@@ -25,17 +25,14 @@
             <!-- PASS / BOARDING TICKET DESAIN PREMIUM -->
             <div class="bg-white rounded-3xl shadow-xl border border-gray-200/80 overflow-hidden relative" id="ticket-card">
                 <!-- Header Card Tiket -->
-                <div class="relative bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 p-8 text-white text-center overflow-hidden">
-                    <div class="absolute -top-12 -right-12 w-40 h-40 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
-                    <div class="absolute -bottom-12 -left-12 w-40 h-40 bg-purple-500/20 rounded-full blur-2xl pointer-events-none"></div>
-
-                    <div class="relative z-10 space-y-2">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/15 backdrop-blur-md rounded-full text-[11px] font-extrabold tracking-widest uppercase border border-white/20">
+                <div class="bg-indigo-700 p-8 text-white text-center">
+                    <div class="space-y-2">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-800 rounded-full text-[11px] font-bold tracking-wider uppercase border border-indigo-600 text-indigo-100">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                            Official Event Pass
+                            E-Tiket Acara Kampus
                         </span>
 
-                        <h1 class="text-xl sm:text-2xl font-black tracking-tight leading-snug">
+                        <h1 class="text-xl sm:text-2xl font-bold tracking-tight leading-snug">
                             {{ $registration->event->title }}
                         </h1>
                         <p class="text-xs text-indigo-200 font-medium">

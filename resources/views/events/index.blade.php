@@ -1,14 +1,10 @@
 <x-app-layout>
     <!-- HERO SECTION -->
-    <div class="relative overflow-hidden bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 text-white py-14 sm:py-20 border-b border-indigo-900/50">
-        <!-- Background decorative ambient circles -->
-        <div class="absolute top-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-indigo-700 text-white py-14 sm:py-20 border-b border-indigo-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto space-y-4">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold tracking-wide text-indigo-200">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-600 border border-indigo-500 text-xs font-semibold tracking-wide text-indigo-100">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                     <span>Tiket & Presensi QR untuk Event Kampus</span>
                 </div>
 
@@ -16,15 +12,15 @@
                     Temukan & Ikuti Event Kampus Impianmu
                 </h1>
 
-                <p class="text-base sm:text-lg text-indigo-200/90 leading-relaxed">
+                <p class="text-base sm:text-lg text-indigo-200 leading-relaxed">
                     Daftar seminar, workshop, dan kompetisi secara online, lalu tunjukkan tiket QR saat hari acara.
                 </p>
 
-                <!-- Search Bar Floating -->
+                <!-- Search Bar -->
                 <div class="pt-4 max-w-2xl mx-auto">
-                    <form method="GET" action="{{ route('events.index') }}" class="relative flex flex-col sm:flex-row gap-2 bg-white/10 p-2 rounded-2xl backdrop-blur-md border border-white/20 shadow-2xl">
+                    <form method="GET" action="{{ route('events.index') }}" class="flex flex-col sm:flex-row gap-2">
                         <div class="relative flex-1 flex items-center">
-                            <svg class="w-5 h-5 text-indigo-300 absolute left-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-gray-400 absolute left-3 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                             <input
@@ -32,10 +28,10 @@
                                 name="q"
                                 value="{{ $search ?? '' }}"
                                 placeholder="Cari topik seminar, workshop, atau lokasi..."
-                                class="w-full pl-11 pr-4 py-3 bg-white/95 text-gray-900 rounded-xl border-0 text-sm focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 font-medium shadow-inner"
+                                class="w-full pl-10 pr-4 py-3 bg-white text-gray-900 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none placeholder-gray-400 font-medium shadow-sm"
                             />
                         </div>
-                        <button type="submit" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-indigo-600/30 transition transform active:scale-95">
+                        <button type="submit" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-900 hover:bg-indigo-950 text-white font-bold text-sm rounded-xl transition active:scale-95">
                             Cari Event
                         </button>
                     </form>
@@ -43,15 +39,15 @@
                     @if (!empty($search))
                         <div class="mt-3 flex items-center justify-center gap-2 text-sm text-indigo-200">
                             <span>Menampilkan hasil untuk: <strong>"{{ $search }}"</strong></span>
-                            <a href="{{ route('events.index') }}" class="text-xs bg-white/20 hover:bg-white/30 text-white px-2.5 py-1 rounded-full transition">
-                                ✕ Reset Filter
+                            <a href="{{ route('events.index') }}" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded-full transition">
+                                ✕ Reset
                             </a>
                         </div>
                     @endif
                 </div>
 
                 <!-- Tiga Poin Fitur -->
-                <div class="pt-6 grid grid-cols-3 gap-3 sm:gap-6 text-center text-xs text-indigo-200/80 border-t border-white/10 mt-8">
+                <div class="pt-6 grid grid-cols-3 gap-3 sm:gap-6 text-center text-xs text-indigo-200 border-t border-indigo-600 mt-8">
                     <div class="flex flex-col items-center gap-1">
                         <span class="text-lg sm:text-xl font-bold text-white">Daftar Online</span>
                         <span>Pilih event dan daftar tanpa antre</span>
@@ -112,7 +108,7 @@
                         @endphp
                         <div class="group bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden">
                             <!-- Header Card dengan Banner Aksen -->
-                            <div class="h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+                            <div class="h-1.5 bg-indigo-600"></div>
 
                             <div class="p-6 flex-1 flex flex-col">
                                 <!-- Status Badge & Date Box -->
@@ -180,7 +176,7 @@
                                         </span>
                                     </div>
                                     <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
-                                        <div class="h-2 rounded-full transition-all duration-500 {{ $isFull ? 'bg-red-500' : ($quotaPercentage > 80 ? 'bg-amber-500' : 'bg-gradient-to-r from-indigo-500 to-purple-600') }}"
+                                        <div class="h-2 rounded-full transition-all duration-500 {{ $isFull ? 'bg-red-500' : ($quotaPercentage > 80 ? 'bg-amber-500' : 'bg-indigo-600') }}"
                                              style="width: {{ min(100, $quotaPercentage) }}%">
                                         </div>
                                     </div>
@@ -188,8 +184,8 @@
                             </div>
 
                             <!-- Footer Card Action -->
-                            <div class="p-4 bg-gray-50/80 border-t border-gray-100">
-                                <a href="{{ route('events.show', $event) }}" class="inline-flex items-center justify-center w-full gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-md shadow-indigo-500/20 transition-all transform active:scale-98">
+                            <div class="p-4 bg-gray-50 border-t border-gray-100">
+                                <a href="{{ route('events.show', $event) }}" class="inline-flex items-center justify-center w-full gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm transition active:scale-98">
                                     <span>Lihat Detail & Registrasi</span>
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                                 </a>

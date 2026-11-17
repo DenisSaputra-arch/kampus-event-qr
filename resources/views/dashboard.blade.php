@@ -55,7 +55,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @forelse ($registrations as $reg)
-                        <div class="p-5 rounded-2xl border border-gray-200 hover:border-indigo-200 hover:shadow-md transition bg-gradient-to-br from-white to-slate-50 flex flex-col justify-between space-y-4">
+                        <div class="p-5 rounded-2xl border border-gray-200 hover:border-indigo-300 hover:shadow-sm transition bg-white flex flex-col justify-between space-y-4">
                             <div class="space-y-2">
                                 <div class="flex items-center justify-between">
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase
