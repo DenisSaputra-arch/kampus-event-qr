@@ -24,5 +24,11 @@ if [ "$RUN_MIGRATIONS" = "true" ]; then
     php artisan migrate --force || true
 fi
 
+# Jalankan seeder database otomatis jika variabel RUN_SEEDER=true
+if [ "$RUN_SEEDER" = "true" ]; then
+    echo "Menjalankan database seeder..."
+    php artisan db:seed --force || true
+fi
+
 echo "Memulai server Apache pada port ${PORT}..."
 exec apache2-foreground

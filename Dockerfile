@@ -1,6 +1,6 @@
 # ==============================================================================
 # Dockerfile Ringan untuk Kampus Event QR (Laravel 13 + PHP 8.4 + Apache)
-# Aset frontend (public/build) telah terkompilasi, hemat memori di Railway/Render
+# Kompatibel dengan: Railway, Render, Fly.io, Cloud Run
 # ==============================================================================
 
 # ------------------------------------------------------------------------------
@@ -10,8 +10,10 @@ FROM composer:2.8 AS vendor-builder
 WORKDIR /app
 
 COPY composer.json composer.lock ./
+# Gunakan --no-scripts agar tidak memicu error package:discover saat artisan belum disalin
 RUN composer install \
     --no-dev \
+    --no-scripts \
     --no-interaction \
     --prefer-dist \
     --optimize-autoloader \
@@ -26,29 +28,16 @@ FROM php:8.4-apache
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions
 
-# Install ekstensi PHP yang diperlukan Laravel & Simple QR Code
+# Install ekstensi PHP tambahan yang diperlukan Laravel, MySQL & Simple QR Code
+# (Ekstensi standar seperti curl, openssl, mbstring, ctype, pdo sudah ada di php:8.4-apache)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
     unzip \
     && install-php-extensions \
-    bcmath \
-    ctype \
-    curl \
-    dom \
-    fileinfo \
-    filter \
-    hash \
-    intl \
-    json \
-    mbstring \
-    openssl \
-    pcre \
-    pdo \
     pdo_mysql \
-    session \
-    tokenizer \
-    xml \
+    bcmath \
+    intl \
     zip \
     gd \
     opcache \
@@ -90,11 +79,14 @@ RUN { \
 
 WORKDIR /var/www/html
 
-# Salin kode sumber aplikasi (termasuk folder public/build hasil kompilasi)
+# Salin seluruh kode sumber aplikasi (termasuk folder public/build hasil kompilasi)
 COPY . .
 
-# Salin hasil vendor dari tahap composer
+# Salin folder vendor dari tahap composer
 COPY --from=vendor-builder /app/vendor/ /var/www/html/vendor/
+
+# Jalankan package:discover sekarang setelah artisan dan vendor tersedia
+RUN php artisan package:discover --ansi
 
 # Salin script entrypoint
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
