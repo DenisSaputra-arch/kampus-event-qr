@@ -1,6 +1,6 @@
-# Kampus Event QR
+# Kampus Event QR — Sistem Tiket & Presensi Event Kampus Berbasis QR Code
 
-Aplikasi web untuk manajemen pendaftaran event kampus dan presensi kehadiran mahasiswa menggunakan QR Code.
+Aplikasi web manajemen event kampus dan presensi kehadiran berbasis **QR Code** yang dirancang dengan penerapan prinsip-prinsip **Cyber Security / Secure Software Development Lifecycle (SSDLC)** dan pertahanan berlapis (*Defense in Depth*) terhadap celah keamanan web populer (OWASP Top 10 & CWE).
 
 - **URL Aplikasi Aktif:** [https://kampus-event-qr-production.up.railway.app](https://kampus-event-qr-production.up.railway.app)
 - **Repositori Git:** [https://github.com/DenisSaputra-arch/kampus-event-qr](https://github.com/DenisSaputra-arch/kampus-event-qr)
