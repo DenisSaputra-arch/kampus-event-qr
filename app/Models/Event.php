@@ -81,6 +81,9 @@ class Event extends Model
     {
         $titleLower = strtolower($this->title);
 
+        if (str_contains($titleLower, 'artificial') || str_contains($titleLower, 'ai') || str_contains($titleLower, 'data science') || str_contains($titleLower, 'intelligence')) {
+            return asset('images/events/ai-datascience.jpg');
+        }
         if (str_contains($titleLower, 'cyber') || str_contains($titleLower, 'hacking')) {
             return asset('images/events/seminar-cyber.jpg');
         }

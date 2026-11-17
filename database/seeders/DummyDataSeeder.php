@@ -73,10 +73,10 @@ class DummyDataSeeder extends Seeder
         );
 
         $eventWorkshop = Event::firstOrCreate(
-            ['title' => 'Workshop Hands-on: Secure Coding & OWASP Top 10'],
+            ['title' => 'Workshop Artificial Intelligence & Data Science Mahasiswa'],
             [
-                'description' => 'Pelatihan praktik langsung mitigasi celah keamanan web terpopuler: SQL Injection, XSS, CSRF, IDOR, dan Formula Injection pada aplikasi berbasis PHP/Laravel.',
-                'location' => 'Laboratorium Komputer Jaringan & Forensik',
+                'description' => 'Pelatihan pengenalan AI, machine learning, dan implementasi tools cerdas untuk kebutuhan riset dan proyek mahasiswa.',
+                'location' => 'Laboratorium Komputer Terpadu',
                 'start_at' => now()->addDays(7)->setTime(13, 30),
                 'quota' => 40,
                 'status' => 'published',
