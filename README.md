@@ -27,7 +27,7 @@ Aplikasi web manajemen pendaftaran dan presensi event kampus menggunakan tiket Q
 
 ## 🛠️ Teknologi yang Digunakan
 
-- **Backend:** Laravel 11 (PHP 8.4)
+- **Backend:** Laravel 13 (PHP 8.4)
 - **Frontend:** Laravel Blade, Tailwind CSS, Alpine.js
 - **Basis Data:** MySQL
 - **Pustaka QR Code:**
