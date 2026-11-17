@@ -74,9 +74,9 @@ class EventCrudTest extends TestCase
             'title' => 'Event Rahasia Internal',
         ]);
 
-        // Guest atau peserta mencoba mengakses langsung URL event draft (pencegahan IDOR/kebocoran data)
+        // Guest atau peserta mencoba mengakses langsung URL event draft (harus 404 Not Found)
         $response = $this->actingAs($this->peserta)->get("/events/{$draftEvent->id}");
-        $response->assertStatus(403);
+        $response->assertStatus(404);
     }
 
     public function test_admin_dapat_melihat_event_draft(): void

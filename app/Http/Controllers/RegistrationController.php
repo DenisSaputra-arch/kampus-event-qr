@@ -42,6 +42,19 @@ class RegistrationController extends Controller
     {
         $user = $request->user();
 
+        // Validasi di sisi server: tolak pendaftaran jika event statusnya bukan published atau waktunya sudah lewat
+        if ($event->status !== 'published') {
+            return redirect()
+                ->back()
+                ->with('error', 'Pendaftaran ditolak: Event ini tidak sedang menerima pendaftaran (status: ' . $event->status . ').');
+        }
+
+        if ($event->start_at->isPast()) {
+            return redirect()
+                ->back()
+                ->with('error', 'Pendaftaran ditolak: Waktu pelaksanaan event telah lewat.');
+        }
+
         try {
             $registration = DB::transaction(function () use ($event, $user) {
                 // 1. Kunci baris event untuk update (Pessimistic Locking)
@@ -49,12 +62,12 @@ class RegistrationController extends Controller
 
                 // 2. Pastikan event masih berstatus published
                 if ($lockedEvent->status !== 'published') {
-                    throw new Exception('Event ini tidak sedang menerima pendaftaran.');
+                    throw new Exception('Pendaftaran ditolak: Event ini tidak sedang menerima pendaftaran (status: ' . $lockedEvent->status . ').');
                 }
 
                 // 3. Pastikan waktu pelaksanaan belum lewat
                 if ($lockedEvent->start_at->isPast()) {
-                    throw new Exception('Pendaftaran sudah ditutup karena waktu acara telah lewat.');
+                    throw new Exception('Pendaftaran ditolak: Waktu pelaksanaan event telah lewat.');
                 }
 
                 // 4. Periksa apakah user sudah pernah mendaftar pada event ini

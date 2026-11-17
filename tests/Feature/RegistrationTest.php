@@ -165,4 +165,35 @@ class RegistrationTest extends TestCase
         // Pastikan QR code ter-render sebagai elemen SVG
         $response->assertSee('<svg', false);
     }
+
+    public function test_pendaftaran_ditolak_jika_event_bukan_published(): void
+    {
+        $draftEvent = Event::factory()->draft()->create();
+
+        $response = $this->actingAs($this->pesertaA)
+            ->post("/events/{$draftEvent->id}/register");
+
+        $response->assertSessionHas('error');
+        $this->assertDatabaseMissing('registrations', [
+            'event_id' => $draftEvent->id,
+            'user_id' => $this->pesertaA->id,
+        ]);
+    }
+
+    public function test_pendaftaran_ditolak_jika_waktu_event_sudah_lewat(): void
+    {
+        $pastEvent = Event::factory()->create([
+            'status' => 'published',
+            'start_at' => now()->subDay(),
+        ]);
+
+        $response = $this->actingAs($this->pesertaA)
+            ->post("/events/{$pastEvent->id}/register");
+
+        $response->assertSessionHas('error');
+        $this->assertDatabaseMissing('registrations', [
+            'event_id' => $pastEvent->id,
+            'user_id' => $this->pesertaA->id,
+        ]);
+    }
 }

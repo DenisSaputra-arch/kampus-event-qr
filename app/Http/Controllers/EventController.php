@@ -41,10 +41,15 @@ class EventController extends Controller
      * Menampilkan detail satu event.
      *
      * Keamanan Akses:
-     * Menggunakan Gate / Policy untuk mencegah akses tidak sah ke event bertatus draft/cancelled.
+     * - Event berstatus Draft atau Cancelled tidak boleh bisa dibuka peserta lewat URL langsung (404 Not Found).
+     * - Admin tetap berhak membuka event draft/cancelled.
      */
-    public function show(Event $event): View
+    public function show(Request $request, Event $event): View
     {
+        if ($event->status !== 'published' && ! $request->user()?->isAdmin()) {
+            abort(404, 'Event tidak ditemukan.');
+        }
+
         Gate::authorize('view', $event);
 
         return view('events.show', compact('event'));
