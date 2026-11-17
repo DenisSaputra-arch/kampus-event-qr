@@ -43,8 +43,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Aktifkan Apache mod_rewrite dan mod_headers
-RUN a2enmod rewrite headers
+# Aktifkan Apache mod_rewrite dan mod_headers, pastikan hanya mpm_prefork yang aktif (cegah AH00534)
+RUN a2dismod mpm_event mpm_worker || true \
+    && a2enmod mpm_prefork rewrite headers
 
 # Ubah DocumentRoot Apache ke direktori /var/www/html/public
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public

@@ -30,5 +30,9 @@ if [ "$RUN_SEEDER" = "true" ]; then
     php artisan db:seed --force || true
 fi
 
+# Pastikan hanya satu MPM yang dimuat (cegah AH00534: More than one MPM loaded)
+a2dismod mpm_event mpm_worker > /dev/null 2>&1 || true
+a2enmod mpm_prefork > /dev/null 2>&1 || true
+
 echo "Memulai server Apache pada port ${PORT}..."
 exec apache2-foreground
