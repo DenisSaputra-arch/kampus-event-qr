@@ -9,7 +9,7 @@
             <div class="text-center max-w-3xl mx-auto space-y-4">
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold tracking-wide text-indigo-200">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                    <span>Sistem Tiket & Presensi QR Resmi Kampus</span>
+                    <span>Tiket & Presensi QR untuk Event Kampus</span>
                 </div>
 
                 <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
@@ -17,7 +17,7 @@
                 </h1>
 
                 <p class="text-base sm:text-lg text-indigo-200/90 leading-relaxed">
-                    Daftar seminar, workshop, dan kompetisi dengan sistem kuota terproteksi *real-time*. Dapatkan e-tiket digital ber-QR Code aman tanpa antre.
+                    Daftar seminar, workshop, dan kompetisi secara online, lalu tunjukkan tiket QR saat hari acara.
                 </p>
 
                 <!-- Search Bar Floating -->
@@ -50,19 +50,19 @@
                     @endif
                 </div>
 
-                <!-- Keunggulan Keamanan & Fitur -->
+                <!-- Tiga Poin Fitur -->
                 <div class="pt-6 grid grid-cols-3 gap-3 sm:gap-6 text-center text-xs text-indigo-200/80 border-t border-white/10 mt-8">
                     <div class="flex flex-col items-center gap-1">
-                        <span class="text-lg sm:text-xl font-bold text-white">Anti-Race Condition</span>
-                        <span>Kuota Akurat (Pessimistic Lock)</span>
+                        <span class="text-lg sm:text-xl font-bold text-white">Daftar Online</span>
+                        <span>Pilih event dan daftar tanpa antre</span>
                     </div>
                     <div class="flex flex-col items-center gap-1">
-                        <span class="text-lg sm:text-xl font-bold text-white">256-Bit Entropy</span>
-                        <span>QR Token CSPRNG Acak</span>
+                        <span class="text-lg sm:text-xl font-bold text-white">Tiket QR</span>
+                        <span>Satu tiket digital untuk tiap event</span>
                     </div>
                     <div class="flex flex-col items-center gap-1">
-                        <span class="text-lg sm:text-xl font-bold text-white">Formula Protected</span>
-                        <span>Ekspor CSV Kebal CWE-1236</span>
+                        <span class="text-lg sm:text-xl font-bold text-white">Presensi Cepat</span>
+                        <span>Kehadiran tercatat lewat scan QR</span>
                     </div>
                 </div>
             </div>

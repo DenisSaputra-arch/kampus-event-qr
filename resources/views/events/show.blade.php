@@ -159,19 +159,19 @@
                             @endauth
                         @endif
 
-                        <!-- Informasi Jaminan Keamanan Sistem -->
+                        <!-- Informasi Pendaftaran -->
                         <div class="pt-4 border-t border-gray-100 space-y-2.5 text-xs text-gray-500">
                             <div class="flex items-center gap-2">
                                 <svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                <span>Verifikasi kuota *anti-race condition*</span>
+                                <span>Kuota diperiksa saat mendaftar</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                <span>E-Tiket QR instan pasca-registrasi</span>
+                                <span>E-tiket QR langsung tersedia setelah mendaftar</span>
                             </div>
                             <div class="flex items-center gap-2">
                                 <svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                <span>Proteksi IDOR kepemilikan tiket</span>
+                                <span>Tiket hanya bisa dilihat oleh pemiliknya</span>
                             </div>
                         </div>
                     </div>
