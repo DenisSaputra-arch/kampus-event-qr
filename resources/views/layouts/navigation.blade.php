@@ -68,7 +68,7 @@
             </div>
 
             <!-- Settings Dropdown (Auth vs Guest) -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-2">
                 @auth
                     <x-dropdown align="right" width="56">
                         <x-slot name="trigger">
@@ -120,6 +120,15 @@
                             </form>
                         </x-slot>
                     </x-dropdown>
+
+                    <!-- Tombol Cepat Logout Langsung -->
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" title="Keluar dari akun" class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-rose-200/80 rounded-full text-xs font-bold text-rose-600 bg-rose-50/50 hover:bg-rose-100 hover:text-rose-700 transition shadow-2xs">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                            Keluar
+                        </button>
+                    </form>
                 @else
                     <div class="flex items-center gap-3">
                         <a href="{{ route('login') }}" class="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition px-3 py-2">

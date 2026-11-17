@@ -265,8 +265,8 @@ return [
             'report-sample' => false,
             'allow' => [],
             'schemes' => ['blob:'],
-            'unsafe-inline' => true,   // diperlukan Alpine.js
-            'unsafe-eval' => false,
+            'unsafe-inline' => true,   // diperlukan Alpine.js & event handler
+            'unsafe-eval' => true,     // diperlukan Alpine.js untuk evaluasi ekspresi reaktif (x-data, @click)
             'wasm-unsafe-eval' => false,
             'unsafe-hashes' => false,
             'strict-dynamic' => false,
