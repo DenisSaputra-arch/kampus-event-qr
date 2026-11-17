@@ -97,7 +97,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-gray-100 text-xs">
                         <div>
                             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Waktu Pelaksanaan</span>
-                            <div class="font-bold text-gray-900 text-sm mt-0.5">{{ $registration->event->start_at->format('l, d F Y') }}</div>
+                            <div class="font-bold text-gray-900 text-sm mt-0.5">{{ $registration->event->start_at->translatedFormat('l, d F Y') }}</div>
                             <div class="text-indigo-600 font-semibold">Pukul {{ $registration->event->start_at->format('H:i') }} WIB</div>
                         </div>
                         <div>

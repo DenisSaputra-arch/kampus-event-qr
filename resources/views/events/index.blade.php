@@ -119,7 +119,7 @@
                                 <div class="flex items-start justify-between gap-3 mb-4">
                                     <div class="flex flex-col items-center justify-center bg-indigo-50 border border-indigo-100 rounded-xl px-3 py-1.5 min-w-[54px] text-center shadow-xs">
                                         <span class="text-[10px] font-black uppercase text-indigo-500 tracking-wider">
-                                            {{ $event->start_at->format('M') }}
+                                            {{ $event->start_at->translatedFormat('M') }}
                                         </span>
                                         <span class="text-xl font-extrabold text-indigo-900 leading-none">
                                             {{ $event->start_at->format('d') }}
@@ -160,7 +160,7 @@
                                         <svg class="w-4 h-4 text-indigo-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
-                                        <span class="truncate font-medium">{{ $event->start_at->format('l, d F Y • H:i') }} WIB</span>
+                                        <span class="truncate font-medium">{{ $event->start_at->translatedFormat('l, d F Y • H:i') }} WIB</span>
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <svg class="w-4 h-4 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -23,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Set locale waktu ke Bahasa Indonesia (Senin, Selasa, dst.)
+        \Carbon\Carbon::setLocale('id');
+
         // ─── Aturan Password Kuat (CWE-521) ───────────────────────────────────
         // Wajib: minimal 8 karakter, huruf besar+kecil, angka, simbol,
         // dan tidak ada dalam daftar password yang bocor (Have I Been Pwned)

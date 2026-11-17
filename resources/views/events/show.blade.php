@@ -69,7 +69,7 @@
                                 </div>
                                 <div>
                                     <div class="text-xs font-bold text-indigo-900 uppercase tracking-wider">Tanggal & Waktu</div>
-                                    <div class="text-sm font-semibold text-gray-900 mt-0.5">{{ $event->start_at->format('l, d F Y') }}</div>
+                                    <div class="text-sm font-semibold text-gray-900 mt-0.5">{{ $event->start_at->translatedFormat('l, d F Y') }}</div>
                                     <div class="text-xs text-indigo-700 font-medium">Pukul {{ $event->start_at->format('H:i') }} WIB</div>
                                 </div>
                             </div>

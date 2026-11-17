@@ -50,7 +50,7 @@
                         <div class="text-xs font-bold uppercase tracking-wider text-indigo-300">Target Event Presensi</div>
                         <h3 class="text-xl font-black mt-1">{{ $selectedEvent->title }}</h3>
                         <p class="text-xs text-indigo-200 mt-1">
-                            📍 {{ $selectedEvent->location }} | 📅 {{ $selectedEvent->start_at->format('d F Y, H:i') }} WIB
+                            📍 {{ $selectedEvent->location }} | 📅 {{ $selectedEvent->start_at->translatedFormat('d F Y, H:i') }} WIB
                         </p>
                     </div>
                     <div class="text-right">
