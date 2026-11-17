@@ -23,11 +23,14 @@ class ScanController extends Controller
     public function index(Request $request): View
     {
         $events = Event::query()
+            ->where('status', 'published')
             ->orderBy('start_at', 'desc')
             ->get();
 
-        $selectedEventId = $request->query('event_id', $events->first()?->id);
-        $selectedEvent = $selectedEventId ? Event::find($selectedEventId) : null;
+        $selectedEventId = $request->query('event_id');
+        $selectedEvent = $selectedEventId ? $events->firstWhere('id', (int) $selectedEventId) : null;
+
+        $isNotToday = $selectedEvent ? ! $selectedEvent->start_at->isToday() : false;
 
         $recentAttendances = collect();
         if ($selectedEvent) {
@@ -40,7 +43,7 @@ class ScanController extends Controller
             ->get();
         }
 
-        return view('admin.scan.index', compact('events', 'selectedEvent', 'recentAttendances'));
+        return view('admin.scan.index', compact('events', 'selectedEvent', 'isNotToday', 'recentAttendances'));
     }
 
     /**

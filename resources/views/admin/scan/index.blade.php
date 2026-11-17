@@ -9,13 +9,12 @@
             <form method="GET" action="{{ route('admin.scan.index') }}" class="flex items-center gap-2">
                 <label for="event_id" class="text-xs font-semibold text-gray-600">Event:</label>
                 <select name="event_id" id="event_id" onchange="this.form.submit()" class="text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    @forelse ($events as $ev)
+                    <option value="" {{ !$selectedEvent ? 'selected' : '' }}>-- Pilih event --</option>
+                    @foreach ($events as $ev)
                         <option value="{{ $ev->id }}" {{ $selectedEvent && $selectedEvent->id === $ev->id ? 'selected' : '' }}>
                             {{ $ev->title }} ({{ $ev->start_at->format('d/m/Y') }})
                         </option>
-                    @empty
-                        <option value="">Belum ada event</option>
-                    @endforelse
+                    @endforeach
                 </select>
             </form>
         </div>
@@ -24,10 +23,27 @@
     <div class="py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @if (!$selectedEvent)
-                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-yellow-800 rounded">
-                    Silakan buat event terlebih dahulu sebelum memulai pemindaian presensi.
+                <div class="bg-amber-50 border-l-4 border-amber-500 p-6 text-amber-800 rounded-xl shadow-xs">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                        <div>
+                            <h4 class="font-bold text-amber-900 text-sm">Scanner Belum Aktif</h4>
+                            <p class="text-xs text-amber-700 mt-0.5">Silakan pilih event published terlebih dahulu pada menu dropdown di atas untuk mengaktifkan scanner.</p>
+                        </div>
+                    </div>
                 </div>
             @else
+                @if ($isNotToday)
+                    <div class="mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 text-sm rounded-xl shadow-xs flex items-center gap-3">
+                        <svg class="w-5 h-5 text-yellow-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <div>
+                            <span class="font-bold">Peringatan:</span> Tanggal pelaksanaan event ini ({{ $selectedEvent->start_at->format('d/m/Y') }}) bukan hari ini. Pastikan Anda memilih event yang tepat sebelum memindai presensi.
+                        </div>
+                    </div>
+                @endif
+
                 <!-- Banner Event Terpilih -->
                 <div class="bg-indigo-900 text-white p-4 sm:p-6 rounded-xl shadow-md mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>

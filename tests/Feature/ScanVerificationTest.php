@@ -169,4 +169,40 @@ class ScanVerificationTest extends TestCase
             'scanned_by' => $this->admin->id,
         ]);
     }
+
+    public function test_halaman_scan_menampilkan_placeholder_pilih_event_dan_tidak_memilih_default(): void
+    {
+        $response = $this->actingAs($this->admin)->get('/admin/scan');
+
+        $response->assertStatus(200);
+        $response->assertSee('Pilih event');
+        $response->assertSee('Scanner Belum Aktif');
+        $response->assertDontSee('id="reader"', false);
+    }
+
+    public function test_halaman_scan_hanya_menampilkan_event_published(): void
+    {
+        $draftEvent = Event::factory()->draft()->create(['title' => 'Event Masih Draft Rahasia']);
+
+        $response = $this->actingAs($this->admin)->get('/admin/scan');
+
+        $response->assertStatus(200);
+        $response->assertSee($this->eventA->title);
+        $response->assertDontSee('Event Masih Draft Rahasia');
+    }
+
+    public function test_halaman_scan_memberikan_peringatan_jika_event_bukan_hari_ini(): void
+    {
+        $futureEvent = Event::factory()->create([
+            'title' => 'Event Masa Depan',
+            'status' => 'published',
+            'start_at' => now()->addDays(5),
+        ]);
+
+        $response = $this->actingAs($this->admin)->get("/admin/scan?event_id={$futureEvent->id}");
+
+        $response->assertStatus(200);
+        $response->assertSee('Peringatan:');
+        $response->assertSee('bukan hari ini');
+    }
 }
