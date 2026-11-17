@@ -24,11 +24,11 @@
                 <form method="GET" action="{{ route('admin.events.index') }}" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                         <label for="q" class="block text-xs font-medium text-gray-700 mb-1">Cari Judul / Lokasi</label>
-                        <input type="text" name="q" id="q" value="{{ $search ?? '' }}" placeholder="Ketik kata kunci..." class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+                        <input type="text" name="q" id="q" value="{{ $search ?? '' }}" placeholder="Ketik kata kunci..." class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-maroon-600 focus:ring-maroon-600" />
                     </div>
                     <div>
                         <label for="status" class="block text-xs font-medium text-gray-700 mb-1">Status Event</label>
-                        <select name="status" id="status" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <select name="status" id="status" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-maroon-600 focus:ring-maroon-600">
                             <option value="">Semua Status</option>
                             <option value="published" {{ ($status ?? '') === 'published' ? 'selected' : '' }}>Published</option>
                             <option value="draft" {{ ($status ?? '') === 'draft' ? 'selected' : '' }}>Draft</option>
@@ -36,7 +36,7 @@
                         </select>
                     </div>
                     <div class="flex items-end gap-2">
-                        <button type="submit" class="px-4 py-2 bg-gray-800 text-white rounded-md text-xs font-semibold uppercase tracking-widest hover:bg-gray-700 transition">
+                        <button type="submit" class="px-4 py-2 bg-maroon-700 text-white rounded-md text-xs font-semibold uppercase tracking-widest hover:bg-maroon-800 transition">
                             Filter
                         </button>
                         @if (!empty($search) || !empty($status))
@@ -87,8 +87,8 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
-                                        <a href="{{ route('admin.events.show', $event) }}" class="text-indigo-600 hover:text-indigo-900 text-xs font-semibold">Lihat</a>
-                                        <a href="{{ route('admin.events.edit', $event) }}" class="text-blue-600 hover:text-blue-900 text-xs font-semibold">Ubah</a>
+                                        <a href="{{ route('admin.events.show', $event) }}" class="text-maroon-700 hover:text-maroon-900 text-xs font-semibold">Lihat</a>
+                                        <a href="{{ route('admin.events.edit', $event) }}" class="text-charcoal-700 hover:text-charcoal-900 text-xs font-semibold">Ubah</a>
 
                                         <!-- Form Delete Aman (CSRF & Method Spoofing DELETE) -->
                                         <form method="POST" action="{{ route('admin.events.destroy', $event) }}" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus event ini? Data yang terhapus tidak dapat dikembalikan.');">

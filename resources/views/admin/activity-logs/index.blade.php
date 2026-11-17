@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-maroon-800 leading-tight">
             Log Aktivitas Pengguna
         </h2>
     </x-slot>
@@ -30,7 +30,7 @@
                             name="q"
                             value="{{ $search }}"
                             placeholder="Cari aksi, IP, atau nama user..."
-                            class="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-blue-500 focus:border-blue-500 w-72"
+                            class="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-maroon-600 focus:border-maroon-600 w-72"
                         />
                         <button type="submit"
                             class="bg-maroon-700 text-white px-4 py-2 rounded-lg text-sm hover:bg-maroon-800 transition font-bold">
@@ -74,8 +74,8 @@
                                         @if ($log->user)
                                             <div class="font-medium text-gray-900">{{ $log->user->name }}</div>
                                             <div class="text-xs text-gray-500">{{ $log->user->email }}</div>
-                                            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium
-                                                {{ $log->user->role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700' }}">
+                                            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-semibold
+                                                {{ $log->user->role === 'admin' ? 'bg-maroon-100 text-maroon-800' : 'bg-gray-100 text-gray-700' }}">
                                                 {{ $log->user->role }}
                                             </span>
                                         @else

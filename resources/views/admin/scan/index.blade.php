@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-maroon-800 leading-tight">
                 {{ __('Pemindai Presensi QR Code') }}
             </h2>
 
             <!-- Form Pilih Event yang Sedang Dipindai -->
             <form method="GET" action="{{ route('admin.scan.index') }}" class="flex items-center gap-2">
                 <label for="event_id" class="text-xs font-semibold text-gray-600">Event:</label>
-                <select name="event_id" id="event_id" onchange="this.form.submit()" class="text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <select name="event_id" id="event_id" onchange="this.form.submit()" class="text-sm rounded-md border-gray-300 shadow-sm focus:border-maroon-600 focus:ring-maroon-600">
                     <option value="" {{ !$selectedEvent ? 'selected' : '' }}>-- Pilih event --</option>
                     @foreach ($events as $ev)
                         <option value="{{ $ev->id }}" {{ $selectedEvent && $selectedEvent->id === $ev->id ? 'selected' : '' }}>
@@ -59,7 +59,6 @@
                         </span>
                     </div>
                 </div>
-                </div>
 
                 <!-- Notifikasi Flash Manual -->
                 @if (session('success'))
@@ -76,25 +75,25 @@
                 <!-- Panel Scanner & Feedback -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                     <!-- Kolom 1: Scanner Kamera Browser (html5-qrcode) -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col justify-between">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 flex flex-col justify-between">
                         <div>
                             <div class="flex items-center justify-between mb-4">
                                 <h4 class="font-bold text-gray-800 flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-maroon-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     </svg>
                                     Pemindai Kamera Langsung
                                 </h4>
-                                <span class="text-xs bg-indigo-50 text-indigo-700 px-2 py-1 rounded font-medium">html5-qrcode</span>
+                                <span class="text-xs bg-maroon-50 text-maroon-700 px-2.5 py-1 rounded font-semibold border border-maroon-200">Kamera Aktif</span>
                             </div>
 
                             <!-- Area Render Kamera -->
-                            <div id="reader" class="rounded-lg overflow-hidden border border-gray-200 bg-black min-h-[300px] flex items-center justify-center text-white text-xs">
+                            <div id="reader" class="rounded-lg overflow-hidden border-2 border-dashed border-gray-300 bg-charcoal-900 min-h-[300px] flex items-center justify-center text-white text-xs">
                                 Memuat modul kamera...
                             </div>
-                            <p class="text-xs text-gray-400 mt-2 text-center">
-                                Arahkan kode QR tiket peserta ke depan kamera browser.
+                            <p class="text-xs text-gray-500 mt-2 text-center">
+                                Arahkan kode QR tiket peserta ke dalam area pemindai kamera di atas.
                             </p>
                         </div>
 
@@ -109,10 +108,10 @@
                                     name="qr_token"
                                     id="manual_token_input"
                                     placeholder="Paste 64 karakter token QR disini..."
-                                    class="text-xs font-mono rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 flex-1"
+                                    class="text-xs font-mono rounded-md border-gray-300 shadow-sm focus:border-maroon-600 focus:ring-maroon-600 flex-1"
                                     required
                                 />
-                                <button type="submit" class="px-4 py-2 bg-gray-800 hover:bg-gray-900 text-white text-xs font-bold uppercase tracking-wider rounded-md transition shadow">
+                                <button type="submit" class="px-4 py-2 bg-maroon-700 hover:bg-maroon-800 text-white text-xs font-bold uppercase tracking-wider rounded-md transition shadow-xs">
                                     Verifikasi
                                 </button>
                             </form>

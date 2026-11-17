@@ -73,77 +73,96 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
-                <!-- SIDEBAR FILTER (KIRI) -->
-                <aside class="lg:col-span-1 space-y-6 bg-white p-6 rounded-md border border-gray-200 shadow-2xs">
-                    <div class="flex items-center justify-between pb-3 border-b border-gray-200">
-                        <h3 class="text-sm font-black uppercase tracking-wider text-charcoal-900">
-                            Saring Hasil
+                <!-- SIDEBAR FILTER (KIRI) DENGAN EXPANDABLE PANEL DI MOBILE -->
+                <aside x-data="{ mobileFilterOpen: false }" class="lg:col-span-1 bg-white rounded-md border border-gray-200 shadow-2xs overflow-hidden">
+                    <div class="flex items-center justify-between p-4 sm:p-5 border-b border-gray-200">
+                        <h3 class="text-sm font-black uppercase tracking-wider text-charcoal-900 flex items-center gap-2">
+                            <span>Saring Hasil</span>
+                            @if (!empty($search))
+                                <span class="w-2 h-2 rounded-full bg-maroon-700 inline-block" title="Filter Aktif"></span>
+                            @endif
                         </h3>
-                        @if (!empty($search))
-                            <a href="{{ route('events.index') }}" class="text-[11px] font-bold text-maroon-700 hover:underline">
-                                Hapus Filter
-                            </a>
-                        @endif
-                    </div>
-
-                    <!-- Filter Kategori Populer -->
-                    <div class="space-y-3">
-                        <span class="text-xs font-bold text-charcoal-900 uppercase tracking-wider block">
-                            Kategori Acara
-                        </span>
-                        <div class="space-y-1.5 text-xs text-gray-700">
-                            @php
-                                $categories = [
-                                    'Semua' => '',
-                                    'Cyber Security' => 'Cyber Security',
-                                    'Workshop' => 'Workshop',
-                                    'Seminar' => 'Seminar',
-                                    'Kuliah Tamu' => 'Kuliah Tamu',
-                                ];
-                            @endphp
-                            @foreach ($categories as $label => $keyword)
-                                <a
-                                    href="{{ empty($keyword) ? route('events.index') : route('events.index', ['q' => $keyword]) }}"
-                                    class="flex items-center justify-between px-2.5 py-1.5 rounded hover:bg-gray-100 transition {{ ($search === $keyword || (empty($keyword) && empty($search))) ? 'bg-maroon-50 text-maroon-700 font-bold' : '' }}"
-                                >
-                                    <span>{{ $label }}</span>
-                                    @if ($search === $keyword || (empty($keyword) && empty($search)))
-                                        <span class="text-maroon-700 font-black">✓</span>
-                                    @endif
+                        <div class="flex items-center gap-2">
+                            @if (!empty($search))
+                                <a href="{{ route('events.index') }}" class="text-[11px] font-bold text-maroon-700 hover:underline">
+                                    Hapus
                                 </a>
-                            @endforeach
+                            @endif
+                            <!-- Tombol toggle filter untuk layar mobile -->
+                            <button
+                                type="button"
+                                @click="mobileFilterOpen = !mobileFilterOpen"
+                                class="lg:hidden inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold text-maroon-700 bg-maroon-50 rounded border border-maroon-200 hover:bg-maroon-100 transition"
+                            >
+                                <span x-text="mobileFilterOpen ? 'Tutup' : 'Filter'">Filter</span>
+                                <svg :class="{'rotate-180': mobileFilterOpen}" class="w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Filter Lokasi Kampus -->
-                    <div class="pt-4 border-t border-gray-200 space-y-3">
-                        <span class="text-xs font-bold text-charcoal-900 uppercase tracking-wider block">
-                            Lokasi Kampus
-                        </span>
-                        <div class="space-y-1.5 text-xs text-gray-700">
-                            @php
-                                $locations = ['Auditorium', 'Lab Komputer', 'Gedung Rektorat'];
-                            @endphp
-                            @foreach ($locations as $loc)
-                                <a
-                                    href="{{ route('events.index', ['q' => $loc]) }}"
-                                    class="flex items-center justify-between px-2.5 py-1.5 rounded hover:bg-gray-100 transition {{ ($search === $loc) ? 'bg-maroon-50 text-maroon-700 font-bold' : '' }}"
-                                >
-                                    <span>{{ $loc }}</span>
-                                    @if ($search === $loc)
-                                        <span class="text-maroon-700 font-black">✓</span>
-                                    @endif
-                                </a>
-                            @endforeach
+                    <!-- Panel Filter: Collapsible di mobile, selalu tampil di desktop (lg) -->
+                    <div :class="{'hidden': !mobileFilterOpen, 'block': mobileFilterOpen}" class="hidden lg:block p-5 space-y-6">
+                        <!-- Filter Kategori Populer -->
+                        <div class="space-y-3">
+                            <span class="text-xs font-bold text-charcoal-900 uppercase tracking-wider block">
+                                Kategori Acara
+                            </span>
+                            <div class="space-y-1.5 text-xs text-gray-700">
+                                @php
+                                    $categories = [
+                                        'Semua' => '',
+                                        'Cyber Security' => 'Cyber Security',
+                                        'Workshop' => 'Workshop',
+                                        'Seminar' => 'Seminar',
+                                        'Kuliah Tamu' => 'Kuliah Tamu',
+                                    ];
+                                @endphp
+                                @foreach ($categories as $label => $keyword)
+                                    <a
+                                        href="{{ empty($keyword) ? route('events.index') : route('events.index', ['q' => $keyword]) }}"
+                                        class="flex items-center justify-between px-2.5 py-1.5 rounded hover:bg-gray-100 transition {{ ($search === $keyword || (empty($keyword) && empty($search))) ? 'bg-maroon-50 text-maroon-700 font-bold' : '' }}"
+                                    >
+                                        <span>{{ $label }}</span>
+                                        @if ($search === $keyword || (empty($keyword) && empty($search)))
+                                            <span class="text-maroon-700 font-black">✓</span>
+                                        @endif
+                                    </a>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Informasi Panduan Singkat -->
-                    <div class="pt-4 border-t border-gray-200 bg-gray-50 -mx-6 -mb-6 p-6 rounded-b-md text-xs space-y-2">
-                        <span class="font-bold text-charcoal-900 block">Tiket Digital QR:</span>
-                        <p class="text-gray-600 leading-relaxed text-[11px]">
-                            Setelah registrasi berhasil, e-tiket QR Code resmi dapat langsung dilihat di menu <strong>Tiket Saya</strong> dan ditunjukkan ke panitia saat hari acara.
-                        </p>
+                        <!-- Filter Lokasi Kampus -->
+                        <div class="pt-4 border-t border-gray-200 space-y-3">
+                            <span class="text-xs font-bold text-charcoal-900 uppercase tracking-wider block">
+                                Lokasi Kampus
+                            </span>
+                            <div class="space-y-1.5 text-xs text-gray-700">
+                                @php
+                                    $locations = ['Auditorium', 'Lab Komputer', 'Gedung Rektorat'];
+                                @endphp
+                                @foreach ($locations as $loc)
+                                    <a
+                                        href="{{ route('events.index', ['q' => $loc]) }}"
+                                        class="flex items-center justify-between px-2.5 py-1.5 rounded hover:bg-gray-100 transition {{ ($search === $loc) ? 'bg-maroon-50 text-maroon-700 font-bold' : '' }}"
+                                    >
+                                        <span>{{ $loc }}</span>
+                                        @if ($search === $loc)
+                                            <span class="text-maroon-700 font-black">✓</span>
+                                        @endif
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <!-- Informasi Panduan Singkat -->
+                        <div class="pt-4 border-t border-gray-200 bg-gray-50 -mx-5 -mb-5 p-5 rounded-b-md text-xs space-y-2">
+                            <span class="font-bold text-charcoal-900 block">Tiket Digital QR:</span>
+                            <p class="text-gray-600 leading-relaxed text-[11px]">
+                                Setelah registrasi berhasil, e-tiket QR Code resmi dapat langsung dilihat di menu <strong>Tiket Saya</strong> dan ditunjukkan ke panitia saat hari acara.
+                            </p>
+                        </div>
                     </div>
                 </aside>
 

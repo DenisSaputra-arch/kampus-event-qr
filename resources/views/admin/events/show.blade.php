@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-maroon-800 leading-tight">
                 {{ __('Detail Event (Admin)') }}
             </h2>
             <div class="space-x-2">
-                <a href="{{ route('admin.events.edit', $event) }}" class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-semibold hover:bg-blue-700">
+                <a href="{{ route('admin.events.edit', $event) }}" class="inline-flex items-center px-4 py-2 bg-maroon-700 text-white rounded text-xs font-semibold hover:bg-maroon-800 transition">
                     Ubah Event
                 </a>
-                <a href="{{ route('admin.events.index') }}" class="text-sm text-gray-600 hover:text-gray-900">
+                <a href="{{ route('admin.events.index') }}" class="text-sm text-maroon-600 hover:text-maroon-800 font-medium">
                     &larr; Kembali
                 </a>
             </div>

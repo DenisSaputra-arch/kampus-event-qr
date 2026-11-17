@@ -2,19 +2,19 @@
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <h2 class="font-semibold text-xl text-maroon-800 leading-tight">
                     {{ __('Rincian Kehadiran Event') }}
                 </h2>
                 <div class="text-xs text-gray-500 mt-1">
-                    Event: <span class="font-bold text-gray-700">{{ $event->title }}</span>
+                    Event: <span class="font-bold text-gray-800">{{ $event->title }}</span>
                 </div>
             </div>
 
             <div class="flex items-center gap-2">
-                <a href="{{ route('admin.reports.export', $event) }}" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-xs font-bold uppercase tracking-wider transition shadow">
+                <a href="{{ route('admin.reports.export', $event) }}" class="inline-flex items-center px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded text-xs font-bold uppercase tracking-wider transition shadow-sm">
                     📥 Unduh File CSV
                 </a>
-                <a href="{{ route('admin.reports.index') }}" class="text-xs text-gray-600 hover:text-gray-900 font-medium">
+                <a href="{{ route('admin.reports.index') }}" class="text-xs text-maroon-700 hover:text-maroon-900 font-semibold">
                     &larr; Kembali ke Laporan
                 </a>
             </div>
@@ -25,26 +25,26 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Ringkasan Statistik Kartu -->
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                    <div class="text-xs text-gray-400 font-semibold uppercase">Total Kuota</div>
+                <div class="bg-white p-5 rounded-lg border-l-4 border-charcoal-700 shadow-sm border-t border-r border-b border-gray-200">
+                    <div class="text-xs text-gray-500 font-semibold uppercase tracking-wider">Total Kuota</div>
                     <div class="text-2xl font-black text-gray-900 mt-1">{{ $event->quota }}</div>
                     <div class="text-[11px] text-gray-500 mt-1">Kapasitas maksimal</div>
                 </div>
 
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                    <div class="text-xs text-blue-500 font-semibold uppercase">Total Terdaftar</div>
-                    <div class="text-2xl font-black text-blue-600 mt-1">{{ $totalRegistered }}</div>
+                <div class="bg-white p-5 rounded-lg border-l-4 border-maroon-700 shadow-sm border-t border-r border-b border-gray-200">
+                    <div class="text-xs text-maroon-700 font-semibold uppercase tracking-wider">Total Terdaftar</div>
+                    <div class="text-2xl font-black text-maroon-800 mt-1">{{ $totalRegistered }}</div>
                     <div class="text-[11px] text-gray-500 mt-1">Pendaftaran aktif</div>
                 </div>
 
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                    <div class="text-xs text-green-500 font-semibold uppercase">Total Hadir</div>
-                    <div class="text-2xl font-black text-green-600 mt-1">{{ $totalAttended }}</div>
+                <div class="bg-white p-5 rounded-lg border-l-4 border-emerald-600 shadow-sm border-t border-r border-b border-gray-200">
+                    <div class="text-xs text-emerald-700 font-semibold uppercase tracking-wider">Total Hadir</div>
+                    <div class="text-2xl font-black text-emerald-700 mt-1">{{ $totalAttended }}</div>
                     <div class="text-[11px] text-gray-500 mt-1">QR Berhasil discan</div>
                 </div>
 
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-                    <div class="text-xs text-yellow-500 font-semibold uppercase">Belum Hadir</div>
+                <div class="bg-white p-5 rounded-lg border-l-4 border-gold-500 shadow-sm border-t border-r border-b border-gray-200">
+                    <div class="text-xs text-yellow-700 font-semibold uppercase tracking-wider">Belum Hadir</div>
                     <div class="text-2xl font-black text-yellow-600 mt-1">{{ max(0, $totalRegistered - $totalAttended) }}</div>
                     <div class="text-[11px] text-gray-500 mt-1">Menunggu presensi</div>
                 </div>

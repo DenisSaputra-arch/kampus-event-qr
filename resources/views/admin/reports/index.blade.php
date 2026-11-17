@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-maroon-800 leading-tight">
                 {{ __('Laporan Kehadiran Event') }}
             </h2>
 
@@ -12,9 +12,9 @@
                     name="q"
                     value="{{ $search ?? '' }}"
                     placeholder="Cari event..."
-                    class="text-xs rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 w-48 sm:w-64"
+                    class="text-xs rounded-md border-gray-300 shadow-sm focus:border-maroon-600 focus:ring-maroon-600 w-48 sm:w-64"
                 />
-                <button type="submit" class="px-3 py-1.5 bg-gray-800 text-white rounded text-xs font-semibold uppercase hover:bg-gray-700">
+                <button type="submit" class="px-3 py-1.5 bg-maroon-700 hover:bg-maroon-800 text-white rounded text-xs font-semibold uppercase transition">
                     Cari
                 </button>
                 @if (!empty($search))

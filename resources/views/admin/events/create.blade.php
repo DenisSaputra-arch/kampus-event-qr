@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-maroon-800 leading-tight">
                 {{ __('Tambah Event Baru') }}
             </h2>
-            <a href="{{ route('admin.events.index') }}" class="text-sm text-gray-600 hover:text-gray-900">
+            <a href="{{ route('admin.events.index') }}" class="text-sm text-maroon-600 hover:text-maroon-800 font-medium">
                 &larr; Kembali ke Kelola Event
             </a>
         </div>
@@ -25,7 +25,7 @@
 
                     <div>
                         <x-input-label for="description" value="Deskripsi Lengkap" />
-                        <textarea id="description" name="description" rows="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" required placeholder="Tuliskan detail acara, pembicara, fasilitas...">{{ old('description') }}</textarea>
+                        <textarea id="description" name="description" rows="5" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-maroon-500 focus:ring-maroon-500 text-sm" required placeholder="Tuliskan detail acara, pembicara, fasilitas...">{{ old('description') }}</textarea>
                         <x-input-error class="mt-2" :messages="$errors->get('description')" />
                     </div>
 
@@ -52,7 +52,7 @@
 
                         <div>
                             <x-input-label for="status" value="Status Publikasi" />
-                            <select id="status" name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" required>
+                            <select id="status" name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-maroon-500 focus:ring-maroon-500 text-sm" required>
                                 <option value="published" {{ old('status', 'published') === 'published' ? 'selected' : '' }}>Published (Langsung Aktif)</option>
                                 <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>Draft (Disimpan Sementara)</option>
                                 <option value="cancelled" {{ old('status') === 'cancelled' ? 'selected' : '' }}>Cancelled (Dibatalkan)</option>
