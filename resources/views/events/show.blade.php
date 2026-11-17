@@ -115,7 +115,7 @@
                                 @php
                                     $pct = $event->quota > 0 ? round((($event->quota - $remaining) / $event->quota) * 100) : 0;
                                 @endphp
-                                <div class="h-2.5 rounded-full {{ $isFull ? 'bg-rose-500' : 'bg-indigo-600' }}" style="width: {{ min(100, $pct) }}%"></div>
+                                <div class="h-2.5 rounded-full {{ $isFull ? 'bg-rose-500' : 'bg-gradient-to-r from-indigo-500 to-purple-600' }}" style="width: {{ min(100, $pct) }}%"></div>
                             </div>
                         </div>
 
@@ -126,7 +126,7 @@
                                 <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-2xl text-center text-xs text-emerald-800 font-semibold">
                                     ✓ Anda sudah terdaftar aktif pada event ini!
                                 </div>
-                                <a href="{{ route('registrations.show', $userRegistration) }}" class="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-sm transition">
+                                <a href="{{ route('registrations.show', $userRegistration) }}" class="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 transition transform hover:-translate-y-0.5">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
                                     Buka E-Tiket QR Anda
                                 </a>
@@ -143,7 +143,7 @@
                             @auth
                                 <form method="POST" action="{{ route('events.register', $event) }}">
                                     @csrf
-                                    <button type="submit" class="w-full py-3.5 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition active:scale-95">
+                                    <button type="submit" class="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-extrabold text-sm shadow-xl shadow-indigo-600/30 transition transform hover:-translate-y-0.5 active:scale-95">
                                         Daftar Event Sekarang
                                     </button>
                                 </form>
